@@ -3,8 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, DollarSign, Clock, Target, Zap } from "lucide-react";
+import { TrendingUp, DollarSign, Clock, Target, Zap, MessageSquare } from "lucide-react";
 import Layout from "@/components/Layout";
+import PaymentModal from "@/components/PaymentModal";
 
 interface InvestmentPlan {
   id: number;
@@ -18,6 +19,8 @@ interface InvestmentPlan {
 
 const Investment = () => {
   const [currentEarnings, setCurrentEarnings] = useState<Record<number, number>>({});
+  const [selectedPlan, setSelectedPlan] = useState<InvestmentPlan | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const plans: InvestmentPlan[] = [
     {
@@ -118,6 +121,11 @@ const Investment = () => {
       case "vip": return "default";
       default: return "secondary";
     }
+  };
+
+  const handleInvestClick = (plan: InvestmentPlan) => {
+    setSelectedPlan(plan);
+    setShowPaymentModal(true);
   };
 
   return (
@@ -242,14 +250,26 @@ const Investment = () => {
                       ))}
                     </div>
 
-                    {/* Investment Button */}
-                    <Button 
-                      className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300"
-                      size="lg"
-                    >
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Invest Now
-                    </Button>
+                    {/* Investment Buttons */}
+                    <div className="space-y-3">
+                      <Button 
+                        className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300"
+                        size="lg"
+                        onClick={() => handleInvestClick(plan)}
+                      >
+                        <DollarSign className="w-4 h-4 mr-2" />
+                        Invest Now
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        className="w-full"
+                        size="lg"
+                        onClick={() => window.location.href = '/feedback'}
+                      >
+                        <MessageSquare className="w-4 h-4 mr-2" />
+                        View Feedback
+                      </Button>
+                    </div>
 
                     {/* ROI Calculation */}
                     <div className="text-center p-3 bg-accent/10 rounded-lg">
@@ -289,6 +309,19 @@ const Investment = () => {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {selectedPlan && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setSelectedPlan(null);
+          }}
+          planName={selectedPlan.name}
+          planAmount={selectedPlan.amount}
+        />
+      )}
     </Layout>
   );
 };

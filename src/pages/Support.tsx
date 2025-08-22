@@ -37,27 +37,6 @@ const Support = () => {
       icon: "TG",
       color: "bg-blue-500",
       link: "https://t.me/support"
-    },
-    {
-      name: "WhatsApp Support",
-      description: "Message us directly on WhatsApp",
-      icon: "WA",
-      color: "bg-green-500",
-      link: "https://wa.me/support"
-    },
-    {
-      name: "Facebook Page",
-      description: "Follow us and get updates on Facebook",
-      icon: "FB",
-      color: "bg-blue-600",
-      link: "https://facebook.com/page"
-    },
-    {
-      name: "Instagram",
-      description: "Connect with us on Instagram",
-      icon: "IG",
-      color: "bg-pink-500",
-      link: "https://instagram.com/profile"
     }
   ];
 

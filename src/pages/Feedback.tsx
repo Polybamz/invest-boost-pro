@@ -181,17 +181,25 @@ const Feedback = () => {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-muted-foreground italic">"{testimonial.message}"</p>
-                    <div className="flex items-center justify-between">
+                    <div className="space-y-3">
                       <div className="flex items-center space-x-2">
                         <DollarSign className="w-4 h-4 text-accent" />
                         <span className="font-semibold text-accent">${testimonial.amount} received</span>
                       </div>
-                      <Button size="sm" variant="outline" asChild>
-                        <a href={testimonial.link} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          View Original
-                        </a>
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={`https://etherscan.io/tx/0x${testimonial.id}`} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            Evidence of Withdrawal
+                          </a>
+                        </Button>
+                        <Button size="sm" variant="outline" asChild>
+                          <a href={testimonial.link} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            See Feedback
+                          </a>
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -239,6 +247,7 @@ const Feedback = () => {
                         <th className="text-left py-3 px-2">Amount</th>
                         <th className="text-left py-3 px-2">Plan</th>
                         <th className="text-left py-3 px-2">Time</th>
+                        <th className="text-left py-3 px-2">Proof</th>
                         {isEditing && <th className="text-left py-3 px-2">Actions</th>}
                       </tr>
                     </thead>
@@ -254,6 +263,14 @@ const Feedback = () => {
                             <Badge variant="outline">{user.plan}</Badge>
                           </td>
                           <td className="py-3 px-2 text-sm text-muted-foreground">{user.time}</td>
+                          <td className="py-3 px-2">
+                            <Button size="sm" variant="outline" asChild>
+                              <a href={`https://etherscan.io/tx/0x${user.id}`} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="w-3 h-3 mr-1" />
+                                Proof of Payout
+                              </a>
+                            </Button>
+                          </td>
                           {isEditing && (
                             <td className="py-3 px-2">
                               <Button size="sm" variant="ghost">

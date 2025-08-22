@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Navigation from "./Navigation";
 import PaymentPopup from "./PaymentPopup";
+import EditableFooter from "./EditableFooter";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +14,9 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="relative">
         {children}
       </main>
+      
+      <EditableFooter />
+      
       <PaymentPopup />
     </div>
   );
