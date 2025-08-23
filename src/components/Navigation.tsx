@@ -9,9 +9,9 @@ const Navigation = () => {
   const location = useLocation();
 
   const navigationItems = [
-    { name: "Investment", href: "/investment", icon: TrendingUp, important: true },
-    { name: "Feedback", href: "/feedback", icon: MessageCircle, important: true },
-    { name: "Employment", href: "/employment", icon: Briefcase, important: true },
+    { name: "Investment", href: "/investment", icon: TrendingUp, important: false },
+    { name: "Feedback", href: "/feedback", icon: MessageCircle, important: false },
+    { name: "Employment", href: "/employment", icon: Briefcase, important: false },
     { name: "Referring", href: "/referring", icon: Users },
     { name: "Shop", href: "/shop", icon: ShoppingCart },
     { name: "Buy Crypto", href: "/buy-crypto", icon: Gift },
@@ -34,16 +34,16 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1">
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link key={item.name} to={item.href}>
-                  <Button
+                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500':''}`}>
+                  {/* <Button
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
                     className="relative flex items-center space-x-2 transition-smooth"
-                  >
+                  > */}
                     <item.icon className="w-4 h-4" />
                     <span>{item.name}</span>
                     {item.important && (
@@ -51,14 +51,14 @@ const Navigation = () => {
                         !
                       </Badge>
                     )}
-                  </Button>
+                  {/* </Button> */}
                 </Link>
               );
             })}
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <Button
               variant="ghost"
               size="sm"
@@ -71,7 +71,7 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card rounded-lg mt-2 mb-4 shadow-card">
               {navigationItems.map((item) => {
                 const isActive = location.pathname === item.href;

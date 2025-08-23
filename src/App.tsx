@@ -13,31 +13,40 @@ import Blog from "./pages/Blog";
 import Support from "./pages/Support";
 import Employment from "./pages/Employment";
 import NotFound from "./pages/NotFound";
+import Authentication from "./pages/Authentication";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/investment" element={<Investment />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/referring" element={<Referring />} />
-          <Route path="/buy-crypto" element={<BuyCrypto />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/employment" element={<Employment />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/auth" element={<Authentication />} />
+            
+            {/* Protected Routes - All wrapped inside a single ProtectedRoute component */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/investment" element={<Investment />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/referring" element={<Referring />} />
+              <Route path="/buy-crypto" element={<BuyCrypto />} />
+              <Route path="/feedback" element={<Feedback />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/employment" element={<Employment />} />
+            </Route>
+
+            {/* Catch-all route for 404 Not Found pages */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
 );
 
 export default App;
