@@ -10,7 +10,7 @@ interface UserProfile {
     lastName: string;
     username: string;
     createdAt: Date;
-    referralLink: string | null;
+    referredBy: string[] | null;
 }
 
 // The authentication state interface for the hook
@@ -66,20 +66,46 @@ export const useAuth = () => {
 
     const register = async (email: string, password: string, userProfile: Omit<UserProfile, 'email' | 'createdAt'>) => {
         setAuthState(prev => ({ ...prev, loading: true, error: null }));
+        const payload = {
+  "email": email,
+  "firstName": userProfile.firstName,
+  "lastName": userProfile.lastName,
+  "username": userProfile.username,
+  "createdAt": userProfile.createdAt,
+  "referredBy": userProfile.referredBy,
+  password: password
+}
+
+console.log(
+    payload
+)
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
 
-            // Save the additional user data to Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                email: user.email,
-                firstName: userProfile.firstName,
-                lastName: userProfile.lastName,
-                username: userProfile.username,
-                createdAt: new Date(),
-                referralLink: userProfile.referralLink || null, 
-            });
+           const response = await fetch('https://crypto-invest-backend-1.onrender.com/auth/register', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json' 
+    },
+    body: JSON.stringify(
+        payload
+)
+});
+
+const data = await response.json();
+console.log(data);
+            // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            // const user = userCredential.user;
+
+            // // Save the additional user data to Firestore
+            // await setDoc(doc(db, "users", user.uid), {
+            //     email: user.email,
+            //     firstName: userProfile.firstName,
+            //     lastName: userProfile.lastName,
+            //     username: userProfile.username,
+            //     createdAt: new Date(),
+            //     referralLink: userProfile.referralLink || null, 
+            // });
         } catch (error: any) {
             setAuthState({
                 user: null,
@@ -87,6 +113,7 @@ export const useAuth = () => {
                 error: error.message
             });
             // Re-throw the error so the component can handle it
+            console.error(error)
             throw error;
         }
     };
