@@ -6,7 +6,7 @@ export const ProtectedRoute = () => {
 
   if (loading) {
     // You can show a loading spinner or screen here while auth state is being determined
-    return <div>Loading...</div>;
+    return <div className='text-center'>Loading...</div>;
   }
 
   // If the user is logged in, render the child routes using <Outlet />

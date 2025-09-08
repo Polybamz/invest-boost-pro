@@ -15,6 +15,7 @@ import Employment from "./pages/Employment";
 import NotFound from "./pages/NotFound";
 import Authentication from "./pages/Authentication";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/blog" element={<Blog />} />
               <Route path="/support" element={<Support />} />
               <Route path="/employment" element={<Employment />} />
+              <Route path="/settings" element={<Settings />}/>
             </Route>
 
             {/* Catch-all route for 404 Not Found pages */}

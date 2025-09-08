@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Headphones, Briefcase, Gift } from "lucide-react";
+import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Headphones, Briefcase, Gift, User, Settings, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
-
+  const { user, logOut } = useAuth();
   const navigationItems = [
     { name: "Investment", href: "/investment", icon: TrendingUp, important: false },
     { name: "Feedback", href: "/feedback", icon: MessageCircle, important: false },
@@ -22,7 +24,7 @@ const Navigation = () => {
   return (
     <nav className="bg-gradient-hero border-b border-border/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
@@ -38,19 +40,19 @@ const Navigation = () => {
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500':''}`}>
+                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500' : ''}`}>
                   {/* <Button
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
                     className="relative flex items-center space-x-2 transition-smooth"
                   > */}
-                    <item.icon className="w-4 h-4" />
-                    <span>{item.name}</span>
-                    {item.important && (
-                      <Badge variant="destructive" className="absolute -top-1 -right-1 px-1 text-xs">
-                        !
-                      </Badge>
-                    )}
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.name}</span>
+                  {item.important && (
+                    <Badge variant="destructive" className="absolute -top-1 -right-1 px-1 text-xs">
+                      !
+                    </Badge>
+                  )}
                   {/* </Button> */}
                 </Link>
               );
@@ -67,12 +69,21 @@ const Navigation = () => {
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
+          <div className='relative max-lg:hidden flex items-center justify-center space-x-2 border-2 border-white h-10 w-10 rounded-full'>
+            <User onClick={() => setShowProfile(!showProfile)} className="cursor-pointer text-[11px]" />
+            {showProfile && (<div className="absolute -top-[-100%] -right-1 px-1 min-w-[150px] text-xs rounded-sm bg-background text-primary-foreground flex flex-col gap-2 shadow-glow">
+              <Link to={'/profile'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><User />My Profile</Link>
+              <Link to={'/settings'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><Settings /> {'Settings'}</Link>
+              <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4" onClick={logOut}><LogOut className="text-red-500" /> {'Logout'}</div>
+            </div>)}
+          </div>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card rounded-lg mt-2 mb-4 shadow-card">
+              <p>{user.firstName} {user.lastName}</p>
               {navigationItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
@@ -94,6 +105,8 @@ const Navigation = () => {
                   </Link>
                 );
               })}
+              <Link to={'/settings'} className="flex items-center justify-center gap-2 space-x-1 text-[15px] text-foreground "><User /> {'Settings'}</Link>
+              <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer" onClick={logOut}><User /> {'Logout'}</div>
             </div>
           </div>
         )}

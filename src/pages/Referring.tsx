@@ -5,8 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Users, DollarSign, Gift, Share2, Copy, Trophy } from "lucide-react";
 import Layout from "@/components/Layout";
+import {useAuth} from "@/hooks/useAuth";
 
 const Referring = () => {
+  const { user } = useAuth();
+    const baseURL = window.location.origin;
+
+  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',user, baseURL)
   const referralTiers = [
     {
       tier: 1,
@@ -96,7 +101,7 @@ const Referring = () => {
                     <div className="flex space-x-2">
                       <Input 
                         id="referral-link"
-                        value="https://platform.com/ref/USER123"
+                        value={`${baseURL}/ref/${user?.referralCode || 'YOURCODE'}`}
                         readOnly
                         className="flex-1"
                       />
@@ -111,7 +116,7 @@ const Referring = () => {
                     <div className="flex space-x-2">
                       <Input 
                         id="referral-code"
-                        value="USER123"
+                        value={user?.referralCode || 'YOURCODE'}
                         readOnly
                         className="flex-1"
                       />

@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
+import { useParams } from 'react-router-dom';
 
 const Authentication = () => {
+    const { code } = useParams()
     // State to toggle between login and sign up
     const [isLogin, setIsLogin] = useState(true);
 

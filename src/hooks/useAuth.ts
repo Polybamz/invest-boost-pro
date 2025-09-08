@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../firebase'; // Assuming 'auth' and 'db' instances are exported from your firebase config file
+import {  User as FirebaseUser } from 'firebase/auth';
 
 // The custom user data interface for Firestore
 interface UserProfile {
@@ -9,7 +7,7 @@ interface UserProfile {
     firstName: string;
     lastName: string;
     username: string;
-    createdAt: Date;
+    createdAt: string;
     referredBy: string[] | null;
 }
 
@@ -29,32 +27,47 @@ export const useAuth = () => {
 
     // Handle auth state changes
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(
-            auth,
-            (user) => {
-                setAuthState({
-                    user,
-                    loading: false,
-                    error: null
-                });
-            },
-            (error) => {
-                setAuthState({
-                    user: null,
-                    loading: false,
-                    error: error.message
-                });
-            }
-        );
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setAuthState({
+                user: JSON.parse(storedUser),
+                loading: false,
+                error: null
+            });
+        } else {
+            setAuthState({
+                user: null,
+                loading: false,
+                error: null
+            });
+        }
 
-        return () => unsubscribe();
     }, []);
 
     const signIn = async (email: string, password: string) => {
         setAuthState(prev => ({ ...prev, loading: true, error: null }));
-        
+        console.log(email, password)
+
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            // await signInWithEmailAndPassword(auth, email, password);
+            const response = await fetch('https://crypto-invest-backend-1.onrender.com/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "email": email, "password": password })
+            });
+            console.log(response)
+
+            const data = await response.json();
+            console.log(data);
+            setAuthState({
+                user: data.data,
+                loading: false,
+                error: null,
+            });
+          localStorage.setItem('user', JSON.stringify(data.data));
+
         } catch (error: any) {
             setAuthState({
                 user: null,
@@ -67,45 +80,40 @@ export const useAuth = () => {
     const register = async (email: string, password: string, userProfile: Omit<UserProfile, 'email' | 'createdAt'>) => {
         setAuthState(prev => ({ ...prev, loading: true, error: null }));
         const payload = {
-  "email": email,
-  "firstName": userProfile.firstName,
-  "lastName": userProfile.lastName,
-  "username": userProfile.username,
-  "createdAt": userProfile.createdAt,
-  "referredBy": userProfile.referredBy,
-  password: password
-}
+            "email": email,
+            "firstName": userProfile.firstName,
+            "lastName": userProfile.lastName,
+            "username": userProfile.username,
+            "createdAt": userProfile.createdAt,
+            "referredBy": userProfile.referredBy,
+            password: password
+        }
 
-console.log(
-    payload
-)
+        console.log(
+            payload
+        )
 
         try {
 
-           const response = await fetch('https://crypto-invest-backend-1.onrender.com/auth/register', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json' 
-    },
-    body: JSON.stringify(
-        payload
-)
-});
+            const response = await fetch('https://crypto-invest-backend-1.onrender.com/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    payload
+                )
+            });
 
-const data = await response.json();
-console.log(data);
-            // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            // const user = userCredential.user;
+            const data = await response.json();
+            setAuthState({
+                user: data.data,
+                loading: false,
+                error: null,
+            });
+            localStorage.setItem('user', JSON.stringify(data.data));
+            console.log(data);
 
-            // // Save the additional user data to Firestore
-            // await setDoc(doc(db, "users", user.uid), {
-            //     email: user.email,
-            //     firstName: userProfile.firstName,
-            //     lastName: userProfile.lastName,
-            //     username: userProfile.username,
-            //     createdAt: new Date(),
-            //     referralLink: userProfile.referralLink || null, 
-            // });
         } catch (error: any) {
             setAuthState({
                 user: null,
@@ -121,7 +129,13 @@ console.log(data);
     const logOut = async () => {
         setAuthState(prev => ({ ...prev, loading: true, error: null }));
         try {
-            await signOut(auth);
+            localStorage.removeItem('user');
+            setAuthState({
+                user: null,
+                loading: false,
+                error: null
+            });
+            // await signOut(auth);
         } catch (error: any) {
             setAuthState(prev => ({
                 ...prev,

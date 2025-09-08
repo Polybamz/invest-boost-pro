@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { TrendingUp, DollarSign, Clock, Target, Zap, MessageSquare } from "lucide-react";
 import Layout from "@/components/Layout";
 import PaymentModal from "@/components/PaymentModal";
+import { useTransactions } from "@/hooks/useTransactions";
 
 interface InvestmentPlan {
   id: number;
@@ -21,8 +22,9 @@ const Investment = () => {
   const [currentEarnings, setCurrentEarnings] = useState<Record<number, number>>({});
   const [selectedPlan, setSelectedPlan] = useState<InvestmentPlan | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { makeInvestment, investmentsPlan, transactions, loading, error, deposit, withdraw } = useTransactions();
 
-  const plans: InvestmentPlan[] = [
+  const plans: InvestmentPlan[] = investmentsPlan ?? [
     {
       id: 1,
       name: "Starter Plan",
@@ -87,6 +89,9 @@ const Investment = () => {
       features: ["40% ROI", "2 Days Duration", "White Glove Service", "Exclusive Access"]
     }
   ];
+
+
+  console.log("Investment Plans:", investmentsPlan);
 
   // Simulate live earnings growth
   useEffect(() => {
@@ -203,7 +208,7 @@ const Investment = () => {
               const progressPercentage = (liveEarning / expectedReturn) * 100;
 
               return (
-                <Card key={plan.id} className={`relative overflow-hidden transition-all duration-300 hover:scale-105 ${getTierColor(plan.tier)}`}>
+                <Card key={plan.id} className={`relative overflow-hidden transition-all duration-300  ${loading? 'opacity-50 pointer-events-none blur' : ''} hover:scale-105 ${getTierColor(plan.tier)}`}>
                   <CardHeader className="space-y-4">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
