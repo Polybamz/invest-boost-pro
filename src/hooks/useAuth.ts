@@ -136,7 +136,6 @@ export const useAuth = () => {
                 error: null
             });
             location.href = "/auth";
-            // await signOut(auth);
         } catch (error: any) {
             setAuthState(prev => ({
                 ...prev,
