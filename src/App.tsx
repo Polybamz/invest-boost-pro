@@ -27,7 +27,9 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             {/* Public Routes */}
+            <Route path="/auth/:ref" element={<Authentication />} />
             <Route path="/auth" element={<Authentication />} />
+
             
             {/* Protected Routes - All wrapped inside a single ProtectedRoute component */}
             <Route element={<ProtectedRoute />}>

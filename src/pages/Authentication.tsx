@@ -10,9 +10,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { useParams } from 'react-router-dom';
 
 const Authentication = () => {
-    const { code } = useParams()
+    const { ref } = useParams()
     // State to toggle between login and sign up
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
 
     // Form field states
     const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ const Authentication = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
-    const [referredBy, setreferredBy] = useState([]);
+    const [referredBy, setreferredBy] = useState([ref || null]);
     
     // Destructure state and functions from the custom useAuth hook
     // The hook now handles the loading and error states for us.
@@ -59,6 +59,8 @@ const Authentication = () => {
         window.location.href = "/";
         return null;
     }
+
+    console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM',ref)
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-background dark:bg-gray-900">
@@ -131,7 +133,7 @@ const Authentication = () => {
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </div>
-                                <div className="grid gap-2">
+                               { !ref && ( <div className="grid gap-2">
                                     <Label htmlFor="referral">Referred By (Optional)</Label>
                                     <Input
                                         id="referral"
@@ -140,7 +142,7 @@ const Authentication = () => {
                                         value={referredBy[0]}
                                         onChange={(e) => setreferredBy([e.target.value])}
                                     />
-                                </div>
+                                </div>)}
                             </>
                         )}
                         {/* Display error message from the useAuth hook */}

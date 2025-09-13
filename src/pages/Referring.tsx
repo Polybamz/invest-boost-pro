@@ -3,12 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Users, DollarSign, Gift, Share2, Copy, Trophy } from "lucide-react";
+import { Users, DollarSign, Gift, Share2, Copy, Trophy, Check  } from "lucide-react";
 import Layout from "@/components/Layout";
 import {useAuth} from "@/hooks/useAuth";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Referring = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
+   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
     const baseURL = window.location.origin;
 
   console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',user, baseURL)
@@ -45,6 +50,35 @@ const Referring = () => {
     { label: "Total Earnings", value: "$0.00", icon: DollarSign },
     { label: "This Month", value: "$0.00", icon: Trophy }
   ];
+
+    const handleCopyLink = async (referralLink) => {
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      setCopiedLink(true);
+      toast({
+        title: "Referral Link Copied",
+        description: "You can now share it with your friends!",
+        duration: 3000,
+      });
+      setTimeout(() => setCopiedLink(false), 2000); // Revert after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy referral link: ', err);
+    }
+  }; const handleCopyCode = async (referralCode: string) => {
+    try {
+      await navigator.clipboard.writeText(referralCode);
+      setCopiedCode(true);
+      toast({
+        title: "Referral Code Copied",
+        description: "You can now share it with your friends!",
+        duration: 3000,
+      });
+      setTimeout(() => setCopiedCode(false), 2000); // Revert after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy referral code: ', err);
+    }
+  };
+
 
   return (
     <Layout>
@@ -101,12 +135,12 @@ const Referring = () => {
                     <div className="flex space-x-2">
                       <Input 
                         id="referral-link"
-                        value={`${baseURL}/ref/${user?.referralCode || 'YOURCODE'}`}
+                        value={`${baseURL}/auth/${user?.referralCode || 'YOURCODE'}`}
                         readOnly
                         className="flex-1"
                       />
-                      <Button size="icon" variant="outline">
-                        <Copy className="w-4 h-4" />
+                      <Button size="icon" variant="outline" onClick={() => handleCopyLink(`${baseURL}/auth/${user?.referralCode || 'YOURCODE'}`)}>
+                        { copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                       </Button>
                     </div>
                   </div>
@@ -120,9 +154,9 @@ const Referring = () => {
                         readOnly
                         className="flex-1"
                       />
-                      <Button size="icon" variant="outline">
-                        <Copy className="w-4 h-4" />
-                      </Button>
+                      <Button size="icon" variant="outline" onClick={() => handleCopyCode(user?.referralCode || 'YOURCODE') }>
+{                     copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />
+}                      </Button>
                     </div>
                   </div>
 
