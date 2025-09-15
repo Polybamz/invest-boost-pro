@@ -26,6 +26,7 @@ import Layout from "@/components/Layout";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Referring = () => {
   const { t } = useTranslation();
@@ -104,7 +105,7 @@ const Referring = () => {
         setLoading(true);
         console.log("Fetching referral data for user:", user.uid);
         
-        const response = await axios.get(`http://localhost:5000/api/referrals/user/${user.uid}`); //make sure you change this to the live server url casue this is mine
+        const response = await axios.get(`https://crypto-invest-backend-1.onrender.com/api/referrals/user/${user.uid}`); //make sure you change this to the live server url casue this is mine
         const data = response.data;
 
         console.log("Referral API response:", data);
