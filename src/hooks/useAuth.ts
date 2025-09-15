@@ -25,6 +25,7 @@ export const useAuth = () => {
         error: null
     });
 
+
     // Handle auth state changes
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -49,8 +50,9 @@ export const useAuth = () => {
         console.log(email, password)
 
         try {
-            // await signInWithEmailAndPassword(auth, email, password);
-            const response = await fetch('https://crypto-invest-backend-1.onrender.com/api/auth/login', {
+            //https://crypto-invest-backend-1.onrender.com/api/auth/login
+            // await signInWithEmailAndPassword(auth, email, password);http://localhost:8080/  
+            const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,7 +86,6 @@ export const useAuth = () => {
             "firstName": userProfile.firstName,
             "lastName": userProfile.lastName,
             "username": userProfile.username,
-            "createdAt": userProfile.createdAt,
             "referredBy": userProfile.referredBy,
             password: password
         }
@@ -95,7 +96,7 @@ export const useAuth = () => {
 
         try {
 
-            const response = await fetch('https://crypto-invest-backend-1.onrender.com/api/auth/register', {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

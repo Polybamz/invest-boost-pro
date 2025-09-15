@@ -22,7 +22,8 @@ const Authentication = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
-    const [referredBy, setreferredBy] = useState(null);
+   const [referredBy, setReferredBy] = useState(ref || ''); // string
+
     
     // Destructure state and functions from the custom useAuth hook
     // The hook now handles the loading and error states for us.
@@ -136,14 +137,15 @@ const Authentication = () => {
                                     />
                                 </div>
                                { !ref && ( <div className="grid gap-2">
-                                    <Label htmlFor="referral">{t('referred_by_optional')}</Label>
-                                    <Input
-                                        id="referral"
-                                        type="text"
-                                        placeholder={t('referral_placeholder')}
-                                        value={referredBy}
-                                        onChange={(e) => setreferredBy(e.target.value)}
-                                    />
+                                    <Label htmlFor="referral">Referred By (Optional)</Label>
+                                   <Input
+                                    id="referral"
+                                    type="text"
+                                    placeholder="Enter your referral link here"
+                                    value={referredBy}
+                                    onChange={(e) => setReferredBy(e.target.value)}
+                                />
+
                                 </div>)}
                             </>
                         )}
