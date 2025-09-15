@@ -8,7 +8,7 @@ type LangOption = {
 };
 
 const languageOptions: LangOption[] = [
-  { code: "en", labelKey: "english", flag: "🇽🇪" },
+  { code: "en", labelKey: "english", flag: "🇬🇧" },
   { code: "de", labelKey: "german", flag: "🇩🇪" },
   { code: "es", labelKey: "spanish", flag: "🇪🇸" },
   { code: "fr", labelKey: "french", flag: "🇫🇷" },
