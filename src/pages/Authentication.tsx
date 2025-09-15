@@ -8,8 +8,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Authentication = () => {
+    const { t } = useTranslation();
     const { ref } = useParams()
     // State to toggle between login and sign up
     const [isLogin, setIsLogin] = useState(false);
@@ -20,7 +22,7 @@ const Authentication = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
-    const [referredBy, setreferredBy] = useState([ref || null]);
+    const [referredBy, setreferredBy] = useState(null);
     
     // Destructure state and functions from the custom useAuth hook
     // The hook now handles the loading and error states for us.
@@ -67,16 +69,16 @@ const Authentication = () => {
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl">
-                        {isLogin ? "Welcome Back" : "Start Trading Crypto Today"}
+                        {isLogin ? t('welcome_back') : t('start_trading_crypto')}
                     </CardTitle>
                     <CardDescription>
-                        {isLogin ? "Enter your email and password to log in to your account." : "Create an account to start buying and selling crypto."}
+                        {isLogin ? t('login_description') : t('signup_description')}
                     </CardDescription>
                 </CardHeader>
                 <form onSubmit={handleFormSubmit}>
                     <CardContent className="grid gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">{t('email')}</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -87,7 +89,7 @@ const Authentication = () => {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">{t('password')}</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -101,7 +103,7 @@ const Authentication = () => {
                             <>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="firstName">First Name</Label>
+                                        <Label htmlFor="firstName">{t('first_name')}</Label>
                                         <Input
                                             id="firstName"
                                             type="text"
@@ -112,7 +114,7 @@ const Authentication = () => {
                                         />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="lastName">Last Name</Label>
+                                        <Label htmlFor="lastName">{t('last_name')}</Label>
                                         <Input
                                             id="lastName"
                                             type="text"
@@ -124,7 +126,7 @@ const Authentication = () => {
                                     </div>
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="username">Username</Label>
+                                    <Label htmlFor="username">{t('username')}</Label>
                                     <Input
                                         id="username"
                                         type="text"
@@ -134,13 +136,13 @@ const Authentication = () => {
                                     />
                                 </div>
                                { !ref && ( <div className="grid gap-2">
-                                    <Label htmlFor="referral">Referred By (Optional)</Label>
+                                    <Label htmlFor="referral">{t('referred_by_optional')}</Label>
                                     <Input
                                         id="referral"
                                         type="text"
-                                        placeholder="Enter your referral link here"
-                                        value={referredBy[0]}
-                                        onChange={(e) => setreferredBy([e.target.value])}
+                                        placeholder={t('referral_placeholder')}
+                                        value={referredBy}
+                                        onChange={(e) => setreferredBy(e.target.value)}
                                     />
                                 </div>)}
                             </>
@@ -152,16 +154,16 @@ const Authentication = () => {
                     </CardContent>
                     <CardFooter className="flex flex-col">
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? "Loading..." : (isLogin ? "Log In" : "Create Account")}
+                            {loading ? t('loading') : (isLogin ? t('login') : t('create_account'))}
                         </Button>
                         <Separator className="my-4" />
                         <Button
                             variant="link"
                             className="text-sm"
                             onClick={() => setIsLogin(!isLogin)}
-                            type="button" // This is important to prevent form submission
+                            type="button"
                         >
-                            {isLogin ? "New to our platform? Create an account" : "Already have an account? Log In"}
+                            {isLogin ? t('new_to_platform') : t('already_have_account')}
                         </Button>
                     </CardFooter>
                 </form>

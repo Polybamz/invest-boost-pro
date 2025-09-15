@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Cpu, Zap, Shield, TrendingUp } from "lucide-react";
 import Layout from "@/components/Layout";
+import { useTranslation } from "react-i18next";
 
 interface MiningMachine {
   id: number;
@@ -17,6 +18,7 @@ interface MiningMachine {
 }
 
 const Shop = () => {
+  const { t } = useTranslation();
   const machines: MiningMachine[] = [
     {
       id: 1,

@@ -16,10 +16,16 @@ import NotFound from "./pages/NotFound";
 import Authentication from "./pages/Authentication";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Settings from "./pages/Settings";
+import AdminPortal from "./pages/AdminPortal";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+
+import { useTranslation } from "react-i18next";
+
+const App = () => {
+  useTranslation(); // Ensures translations are loaded
+  return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
@@ -29,8 +35,6 @@ const App = () => (
             {/* Public Routes */}
             <Route path="/auth/:ref" element={<Authentication />} />
             <Route path="/auth" element={<Authentication />} />
-
-            
             {/* Protected Routes - All wrapped inside a single ProtectedRoute component */}
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<HomePage />} />
@@ -43,14 +47,15 @@ const App = () => (
               <Route path="/support" element={<Support />} />
               <Route path="/employment" element={<Employment />} />
               <Route path="/settings" element={<Settings />}/>
+              <Route path="/admin-dashboard" element={<AdminPortal />} />
             </Route>
-
             {/* Catch-all route for 404 Not Found pages */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
-);
+  );
+};
 
 export default App;

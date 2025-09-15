@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,7 @@ interface PaidUser {
 
 const Feedback = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const { t } = useTranslation();
 
   const testimonials: Testimonial[] = [
     {
@@ -36,7 +38,7 @@ const Feedback = () => {
       platform: "telegram",
       amount: 150,
       date: "2024-01-15",
-      message: "Amazing platform! Received my ROI exactly as promised. Highly recommend!",
+      message: t("testimonial_1"),
       link: "https://t.me/feedback/123",
       avatar: "/placeholder.svg"
     },
@@ -46,7 +48,7 @@ const Feedback = () => {
       platform: "facebook",
       amount: 750,
       date: "2024-01-14",
-      message: "Best investment decision I've made this year. Professional service and quick payouts.",
+      message: t("testimonial_2"),
       link: "https://facebook.com/post/456",
       avatar: "/placeholder.svg"
     },
@@ -56,7 +58,7 @@ const Feedback = () => {
       platform: "instagram",
       amount: 2500,
       date: "2024-01-13",
-      message: "Exceeded my expectations! The returns are consistent and the platform is reliable.",
+      message: t("testimonial_3"),
       link: "https://instagram.com/p/789",
       avatar: "/placeholder.svg"
     },
@@ -66,7 +68,7 @@ const Feedback = () => {
       platform: "whatsapp",
       amount: 500,
       date: "2024-01-12",
-      message: "Fantastic experience. The support team is very helpful and responsive.",
+      message: t("testimonial_4"),
       link: "https://wa.me/feedback/321",
       avatar: "/placeholder.svg"
     }
@@ -118,14 +120,13 @@ const Feedback = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-gradient-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-4">
               <MessageSquare className="w-4 h-4" />
-              <span>User Feedback & Testimonials</span>
+              <span>{t('user_feedback_testimonials')}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-              What Our Users Say
+              {t('what_our_users_say')}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Real feedback from real users who have experienced success with our platform. 
-              Join thousands of satisfied investors today.
+              {t('real_feedback_desc')}
             </p>
           </div>
 
@@ -137,12 +138,12 @@ const Feedback = () => {
               className="mr-2"
             >
               <Edit className="w-4 h-4 mr-2" />
-              {isEditing ? "Save Changes" : "Edit Mode"}
+              {isEditing ? t('save_changes') : t('edit_mode')}
             </Button>
             {isEditing && (
               <Button variant="outline">
                 <Plus className="w-4 h-4 mr-2" />
-                Add Testimonial
+                {t('add_testimonial')}
               </Button>
             )}
           </div>
@@ -150,7 +151,7 @@ const Feedback = () => {
           {/* User Testimonials */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-              Success Stories & Testimonials
+              {t('success_stories_testimonials')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {testimonials.map((testimonial) => (
@@ -184,19 +185,19 @@ const Feedback = () => {
                     <div className="space-y-3">
                       <div className="flex items-center space-x-2">
                         <DollarSign className="w-4 h-4 text-accent" />
-                        <span className="font-semibold text-accent">${testimonial.amount} received</span>
+                        <span className="font-semibold text-accent">${testimonial.amount} {t('received')}</span>
                       </div>
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" asChild>
                           <a href={`https://etherscan.io/tx/0x${testimonial.id}`} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="w-3 h-3 mr-1" />
-                            Evidence of Withdrawal
+                            {t('evidence_of_withdrawal')}
                           </a>
                         </Button>
                         <Button size="sm" variant="outline" asChild>
                           <a href={testimonial.link} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="w-3 h-3 mr-1" />
-                            See Feedback
+                            {t('see_feedback')}
                           </a>
                         </Button>
                       </div>
@@ -211,17 +212,17 @@ const Feedback = () => {
           <div className="mb-16">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold text-foreground">
-                Today's Payouts - First 15 Users
+                {t('todays_payouts_first_15_users')}
               </h2>
               {isEditing && (
                 <div className="flex space-x-2">
                   <Button size="sm" variant="outline">
                     <Edit className="w-3 h-3 mr-1" />
-                    Edit List
+                    {t('edit_list')}
                   </Button>
                   <Button size="sm" variant="outline">
                     <Calendar className="w-3 h-3 mr-1" />
-                    View History
+                    {t('view_history')}
                   </Button>
                 </div>
               )}
@@ -231,10 +232,10 @@ const Feedback = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Users className="w-5 h-5" />
-                  <span>Live Payout Record - January 16, 2024</span>
+                  <span>{t('live_payout_record', { date: 'January 16, 2024' })}</span>
                 </CardTitle>
                 <CardDescription>
-                  Real-time list of users who received their ROI payments today
+                  {t('real_time_roi_payments')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -243,12 +244,12 @@ const Feedback = () => {
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left py-3 px-2">#</th>
-                        <th className="text-left py-3 px-2">User</th>
-                        <th className="text-left py-3 px-2">Amount</th>
-                        <th className="text-left py-3 px-2">Plan</th>
-                        <th className="text-left py-3 px-2">Time</th>
-                        <th className="text-left py-3 px-2">Proof</th>
-                        {isEditing && <th className="text-left py-3 px-2">Actions</th>}
+                        <th className="text-left py-3 px-2">{t('user')}</th>
+                        <th className="text-left py-3 px-2">{t('amount')}</th>
+                        <th className="text-left py-3 px-2">{t('plan')}</th>
+                        <th className="text-left py-3 px-2">{t('time')}</th>
+                        <th className="text-left py-3 px-2">{t('proof')}</th>
+                        {isEditing && <th className="text-left py-3 px-2">{t('actions')}</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -267,7 +268,7 @@ const Feedback = () => {
                             <Button size="sm" variant="outline" asChild>
                               <a href={`https://etherscan.io/tx/0x${user.id}`} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="w-3 h-3 mr-1" />
-                                Proof of Payout
+                                {t('proof_of_payout')}
                               </a>
                             </Button>
                           </td>
@@ -285,7 +286,7 @@ const Feedback = () => {
                 </div>
                 <div className="mt-6 p-4 bg-gradient-subtle rounded-lg">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Total Paid Today (First 15 users)</span>
+                    <span className="text-sm text-muted-foreground">{t('total_paid_today_first_15')}</span>
                     <span className="text-xl font-bold text-accent">
                       ${todaysPaidUsers.reduce((sum, user) => sum + user.amount, 0).toLocaleString()}
                     </span>
@@ -299,24 +300,24 @@ const Feedback = () => {
           <Card className="bg-gradient-crypto border-border/50 shadow-premium">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-                Join Our Feedback Communities
+                {t('join_feedback_communities')}
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Button variant="outline" size="lg" className="h-16 flex-col space-y-2">
                   <div className="w-6 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center">TG</div>
-                  <span>Telegram</span>
+                  <span>{t('telegram')}</span>
                 </Button>
                 <Button variant="outline" size="lg" className="h-16 flex-col space-y-2">
                   <div className="w-6 h-6 bg-blue-600 rounded text-white text-xs flex items-center justify-center">FB</div>
-                  <span>Facebook</span>
+                  <span>{t('facebook')}</span>
                 </Button>
                 <Button variant="outline" size="lg" className="h-16 flex-col space-y-2">
                   <div className="w-6 h-6 bg-pink-500 rounded text-white text-xs flex items-center justify-center">IG</div>
-                  <span>Instagram</span>
+                  <span>{t('instagram')}</span>
                 </Button>
                 <Button variant="outline" size="lg" className="h-16 flex-col space-y-2">
                   <div className="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center">WA</div>
-                  <span>WhatsApp</span>
+                  <span>{t('whatsapp')}</span>
                 </Button>
               </div>
             </CardContent>

@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Headphones, Briefcase, Gift, User, Settings, LogOut } from "lucide-react";
+import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Home, Headphones, Briefcase, Gift, User, Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +13,7 @@ const Navigation = () => {
   const location = useLocation();
   const { user, logOut } = useAuth();
   const navigationItems = [
+    { name: "Home", href: "/", icon: Home, important: false },
     { name: "Investment", href: "/investment", icon: TrendingUp, important: false },
     { name: "Feedback", href: "/feedback", icon: MessageCircle, important: false },
     // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
@@ -28,8 +31,8 @@ const Navigation = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow">
-                <TrendingUp className="w-5 h-5 text-primary-foreground" />
+              <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-secondary-500  rounded-lg flex items-center justify-center shadow-glow">
+                <img src="/images/logo/logo.png" alt="Logo" className="w-9 h-9" />
               </div>
               <span className="text-xl font-bold text-foreground">CryptoInvest</span>
             </Link>
@@ -58,6 +61,7 @@ const Navigation = () => {
               );
             })}
           </div>
+          <LanguageSwitcher />
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">

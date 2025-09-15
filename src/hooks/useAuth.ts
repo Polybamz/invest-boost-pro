@@ -8,7 +8,7 @@ interface UserProfile {
     lastName: string;
     username: string;
     createdAt: string;
-    referredBy: string[] | null;
+    referredBy: string | null;
 }
 
 // The authentication state interface for the hook

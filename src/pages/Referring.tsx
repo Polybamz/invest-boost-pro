@@ -5,50 +5,51 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Users, DollarSign, Gift, Share2, Copy, Trophy, Check  } from "lucide-react";
 import Layout from "@/components/Layout";
-import {useAuth} from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const Referring = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { toast } = useToast();
-   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
-    const baseURL = window.location.origin;
+  const baseURL = window.location.origin;
 
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',user, baseURL)
   const referralTiers = [
     {
       tier: 1,
       commission: 10,
       color: "border-blue-500/50 bg-blue-500/5",
       icon: Users,
-      requirements: "Direct referrals",
-      description: "Earn 10% commission on every investment made by users you directly refer"
+      requirements: t('direct_referrals'),
+      description: t('earn_10_percent_commission')
     },
     {
       tier: 2,
       commission: 7,
       color: "border-purple-500/50 bg-purple-500/5",
       icon: Share2,
-      requirements: "Second level referrals",
-      description: "Earn 7% commission on investments from referrals of your referrals"
+      requirements: t('second_level_referrals'),
+      description: t('earn_7_percent_commission')
     },
     {
       tier: 3,
       commission: 5,
       color: "border-yellow-500/50 bg-yellow-500/5 shadow-glow",
       icon: Trophy,
-      requirements: "Third level referrals",
-      description: "Earn 5% commission on third-level referral investments"
+      requirements: t('third_level_referrals'),
+      description: t('earn_5_percent_commission')
     }
   ];
 
   const stats = [
-    { label: "Total Referrals", value: "0", icon: Users },
-    { label: "Active Referrals", value: "0", icon: Share2 },
-    { label: "Total Earnings", value: "$0.00", icon: DollarSign },
-    { label: "This Month", value: "$0.00", icon: Trophy }
+    { label: t("total_referrals"), value: "0", icon: Users },
+    { label: t("active_referrals"), value: "0", icon: Share2 },
+    { label: t("total_earnings"), value: "$0.00", icon: DollarSign },
+    { label: t("this_month"), value: "$0.00", icon: Trophy }
   ];
 
     const handleCopyLink = async (referralLink) => {
@@ -88,14 +89,13 @@ const Referring = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-gradient-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-4">
               <Users className="w-4 h-4" />
-              <span>Referral Program</span>
+              <span>{t("referral_program")}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-              Earn While You Share
+              {t("earn_while_you_share")}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Invite friends and earn up to 10% commission on their investments. 
-              Build your network and maximize your passive income.
+              {t("invite_friends_and_earn")}
             </p>
           </div>
 
@@ -123,15 +123,15 @@ const Referring = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Share2 className="w-5 h-5" />
-                    <span>Your Referral Link</span>
+                    <span>{t("your_referral_link")}</span>
                   </CardTitle>
                   <CardDescription>
-                    Share this link with friends to start earning commissions
+                    {t("share_link_with_friends")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="referral-link">Referral Link</Label>
+                    <Label htmlFor="referral-link">{t("referral_link")}</Label>
                     <div className="flex space-x-2">
                       <Input 
                         id="referral-link"
@@ -146,7 +146,7 @@ const Referring = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="referral-code">Referral Code</Label>
+                    <Label htmlFor="referral-code">{t("referral_code")}</Label>
                     <div className="flex space-x-2">
                       <Input 
                         id="referral-code"
@@ -155,14 +155,14 @@ const Referring = () => {
                         className="flex-1"
                       />
                       <Button size="icon" variant="outline" onClick={() => handleCopyCode(user?.referralCode || 'YOURCODE') }>
-{                     copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />
-}                      </Button>
+                        { copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      </Button>
                     </div>
                   </div>
 
                   <Button className="w-full bg-gradient-primary hover:shadow-glow">
                     <Share2 className="w-4 h-4 mr-2" />
-                    Share Link
+                    {t("share_link")}
                   </Button>
                 </CardContent>
               </Card>
@@ -171,7 +171,7 @@ const Referring = () => {
             {/* Commission Tiers */}
             <div className="lg:col-span-2">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-foreground mb-4">Commission Structure</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-4">{t("commission_structure")}</h3>
                 {referralTiers.map((tier) => (
                   <Card key={tier.tier} className={`transition-all duration-300 hover:scale-105 ${tier.color}`}>
                     <CardHeader>
@@ -181,7 +181,7 @@ const Referring = () => {
                             <tier.icon className="w-6 h-6 text-accent" />
                           </div>
                           <div>
-                            <CardTitle className="text-xl">Tier {tier.tier}</CardTitle>
+                            <CardTitle className="text-xl">{t("tier", { tier: tier.tier })}</CardTitle>
                             <CardDescription>{tier.requirements}</CardDescription>
                           </div>
                         </div>
@@ -192,11 +192,9 @@ const Referring = () => {
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">{tier.description}</p>
-                      <div className="mt-4 p-3 bg-accent/10 rounded-lg">
-                        <div className="text-sm text-muted-foreground">Example: If your referral invests $1,000</div>
-                        <div className="text-lg font-bold text-accent">
-                          You earn: ${(1000 * tier.commission / 100).toFixed(2)}
-                        </div>
+                      <div className="text-sm text-muted-foreground">{t("example_if_invests", { amount: 1000 })}</div>
+                      <div className="text-lg font-bold text-accent">
+                        {t("you_earn", { amount: (1000 * tier.commission / 100).toFixed(2) })}
                       </div>
                     </CardContent>
                   </Card>
@@ -210,25 +208,24 @@ const Referring = () => {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Gift className="w-5 h-5" />
-                <span>Referral Market (Coming Soon)</span>
+                <span>{t("referral_market_coming_soon")}</span>
               </CardTitle>
               <CardDescription>
-                Advanced referral marketplace with additional earning opportunities
+                {t("advanced_referral_marketplace")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8">
                 <Gift className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  Exciting Features Coming Soon
+                  {t("exciting_features_coming_soon")}
                 </h3>
                 <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  Get ready for our advanced referral marketplace where you can trade referral 
-                  positions, participate in bonus campaigns, and unlock exclusive rewards.
+                  {t("get_ready_for_marketplace")}
                 </p>
                 <Button variant="outline" size="lg">
                   <Gift className="w-4 h-4 mr-2" />
-                  Notify Me When Available
+                  {t("notify_me_when_available")}
                 </Button>
               </div>
             </CardContent>
@@ -239,19 +236,18 @@ const Referring = () => {
             <Card className="bg-gradient-card border-border/50">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-foreground mb-4">
-                  Ready to Start Earning?
+                  {t("ready_to_start_earning")}
                 </h3>
                 <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  Join our referral program today and turn your network into a passive income stream. 
-                  The more you share, the more you earn!
+                  {t("join_referral_program_today")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button size="lg" className="bg-gradient-primary hover:shadow-glow">
                     <Users className="w-4 h-4 mr-2" />
-                    Start Referring Now
+                    {t("start_referring_now")}
                   </Button>
                   <Button size="lg" variant="outline">
-                    Learn More
+                    {t("learn_more")}
                   </Button>
                 </div>
               </CardContent>

@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, DollarSign, TrendingUp, Target, Share2, Gift, Briefcase } from "lucide-react";
 import Layout from "@/components/Layout";
+import { useTranslation } from "react-i18next";
 
 const Employment = () => {
+  const { t } = useTranslation();
   const benefits = [
     {
       title: "High Commission Rates",
@@ -84,21 +86,20 @@ const Employment = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-gradient-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-4">
               <Briefcase className="w-4 h-4" />
-              <span>Employment Opportunity</span>
+              <span>{t('employment_opportunity')}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-              Become a Partner
+              {t('become_a_partner')}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Join our growing network of successful partners. Earn substantial income by 
-              referring others to our investment platform. No experience required!
+              {t('employment_header_desc')}
             </p>
           </div>
 
           {/* Benefits Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-              Why Partner With Us?
+              {t('why_partner_with_us')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
               {benefits.map((benefit, index) => (
@@ -123,7 +124,7 @@ const Employment = () => {
           {/* How It Works */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-              How It Works
+              {t('how_it_works')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
               {steps.map((step, index) => (
@@ -152,7 +153,7 @@ const Employment = () => {
           {/* Earning Potential */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-              Your Earning Potential
+              {t('your_earning_potential')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {earningExamples.map((example, index) => (
@@ -161,7 +162,7 @@ const Employment = () => {
                 }`}>
                   {index === 1 && (
                     <div className="absolute top-0 left-0 right-0 bg-gradient-primary text-primary-foreground text-center py-2 text-sm font-medium">
-                      Most Popular
+                      {t('most_popular')}
                     </div>
                   )}
                   <CardHeader className={index === 1 ? 'pt-12' : ''}>
@@ -169,16 +170,16 @@ const Employment = () => {
                       <div className="text-4xl font-bold text-foreground mb-2">
                         {example.referrals}
                       </div>
-                      <CardTitle>Active Referrals</CardTitle>
+                      <CardTitle>{t('active_referrals')}</CardTitle>
                       <CardDescription>
-                        Average investment: ${example.avgInvestment}
+                        {t('average_investment')}: ${example.avgInvestment}
                       </CardDescription>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="bg-gradient-subtle p-4 rounded-lg">
                       <div className="text-center">
-                        <div className="text-sm text-muted-foreground">Monthly Earnings</div>
+                        <div className="text-sm text-muted-foreground">{t('monthly_earnings')}</div>
                         <div className="text-2xl font-bold text-accent">
                           ${example.monthlyEarning.toLocaleString()}
                         </div>
@@ -186,7 +187,7 @@ const Employment = () => {
                     </div>
                     <div className="bg-gradient-subtle p-4 rounded-lg">
                       <div className="text-center">
-                        <div className="text-sm text-muted-foreground">Yearly Potential</div>
+                        <div className="text-sm text-muted-foreground">{t('yearly_potential')}</div>
                         <div className="text-2xl font-bold text-primary">
                           ${example.yearlyEarning.toLocaleString()}
                         </div>
@@ -201,8 +202,8 @@ const Employment = () => {
           {/* Commission Structure */}
           <Card className="bg-gradient-crypto border-border/50 shadow-premium mb-16">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Three-Tier Commission Structure</CardTitle>
-              <CardDescription>Maximize your earnings with our multi-level referral system</CardDescription>
+              <CardTitle className="text-2xl">{t('three_tier_commission_structure')}</CardTitle>
+              <CardDescription>{t('maximize_earnings_multi_level')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -210,30 +211,30 @@ const Employment = () => {
                   <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Users className="w-8 h-8 text-blue-500" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Tier 1</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('tier_1')}</h3>
                   <div className="text-3xl font-bold text-accent mb-2">10%</div>
                   <p className="text-sm text-muted-foreground">
-                    Direct referrals - people you personally invite
+                    {t('direct_referrals_desc')}
                   </p>
                 </div>
                 <div className="text-center p-6 bg-gradient-card rounded-lg border border-border/50">
                   <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Share2 className="w-8 h-8 text-purple-500" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Tier 2</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('tier_2')}</h3>
                   <div className="text-3xl font-bold text-accent mb-2">7%</div>
                   <p className="text-sm text-muted-foreground">
-                    Second level - referrals from your direct referrals
+                    {t('second_level_referrals_desc')}
                   </p>
                 </div>
                 <div className="text-center p-6 bg-gradient-card rounded-lg border border-border/50">
                   <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Target className="w-8 h-8 text-yellow-500" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Tier 3</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('tier_3')}</h3>
                   <div className="text-3xl font-bold text-accent mb-2">5%</div>
                   <p className="text-sm text-muted-foreground">
-                    Third level - extending your network even further
+                    {t('third_level_referrals_desc')}
                   </p>
                 </div>
               </div>
@@ -245,26 +246,25 @@ const Employment = () => {
             <Card className="bg-gradient-card border-border/50 max-w-4xl mx-auto">
               <CardContent className="p-12">
                 <h3 className="text-3xl font-bold text-foreground mb-4">
-                  Ready to Start Your Journey?
+                  {t('ready_to_start_your_journey')}
                 </h3>
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Join thousands of successful partners who are already earning substantial income 
-                  through our referral program. Your financial freedom starts here!
+                  {t('join_successful_partners_desc')}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button size="lg" className="bg-gradient-primary hover:shadow-glow" asChild>
                     <a href="/referring">
                       <Users className="w-5 h-5 mr-2" />
-                      Join Referral Program
+                      {t('join_referral_program')}
                     </a>
                   </Button>
                   <Button size="lg" variant="outline">
                     <TrendingUp className="w-5 h-5 mr-2" />
-                    Learn More
+                    {t('learn_more')}
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground mt-6">
-                  No fees, no commitments. Start earning from your first referral.
+                  {t('no_fees_no_commitments')}
                 </p>
               </CardContent>
             </Card>

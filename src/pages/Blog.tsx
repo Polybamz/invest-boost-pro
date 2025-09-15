@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Calendar, User, Mail, Edit, Plus, Send } from "lucide-react";
 import Layout from "@/components/Layout";
+import { useTranslation } from "react-i18next";
 
 interface BlogPost {
   id: number;
@@ -20,6 +21,7 @@ interface BlogPost {
 }
 
 const Blog = () => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("");
 

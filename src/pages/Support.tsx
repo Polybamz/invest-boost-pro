@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Mail, Phone, ExternalLink, Clock, CheckCircle } from "lucide-react";
 import Layout from "@/components/Layout";
+import { useTranslation } from "react-i18next";
+import { useContact } from "@/hooks/useContact";
 
 const Support = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,6 +20,7 @@ const Support = () => {
     message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { sendContact, loading, error, success } = useContact();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -26,14 +30,20 @@ const Support = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
+    sendContact({
+      fullName: formData.name,
+      email: formData.email,
+      whatsappNumber: formData.whatsapp,
+      subject: formData.subject,
+      message: formData.message
+    });
     console.log("Support form submitted:", formData);
-    setIsSubmitted(true);
   };
 
   const supportChannels = [
     {
-      name: "Telegram Support",
-      description: "Join our Telegram group for instant support",
+      name: t("telegram_support"),
+      description: t("join_telegram_group"),
       icon: "TG",
       color: "bg-blue-500",
       link: "https://t.me/support"
@@ -42,22 +52,45 @@ const Support = () => {
 
   const faqItems = [
     {
-      question: "How do I start investing?",
-      answer: "Simply choose an investment plan that suits your budget and goals, then follow the investment process."
+      question: t("faq_how_start_investing"),
+      answer: t("faq_how_start_investing_answer")
     },
     {
-      question: "When will I receive my ROI?",
-      answer: "ROI is paid according to the specific timeframe of your chosen plan (2-3 days depending on the plan)."
+      question: t("faq_when_receive_roi"),
+      answer: t("faq_when_receive_roi_answer")
     },
     {
-      question: "Is my investment secure?",
-      answer: "Yes, we use industry-standard security measures to protect all investments and user data."
+      question: t("faq_is_investment_secure"),
+      answer: t("faq_is_investment_secure_answer")
     },
     {
-      question: "Can I withdraw my investment early?",
-      answer: "Investment terms are fixed for the duration specified in each plan to ensure guaranteed returns."
+      question: t("faq_withdraw_early"),
+      answer: t("faq_withdraw_early_answer")
     }
   ];
+
+  useEffect(() => {
+    if (success) {
+      // Reset form after successful submission
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        whatsapp: "",
+        subject: "",
+        message: ""
+      });
+    }
+  }, [success]);
+
+  // set isSubmitted to true if success is false after count of 5 seconds
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    }
+  }, [success]);
 
   if (isSubmitted) {
     return (
@@ -68,17 +101,15 @@ const Support = () => {
               <CardContent className="p-12">
                 <CheckCircle className="w-16 h-16 text-accent mx-auto mb-6" />
                 <h1 className="text-3xl font-bold text-foreground mb-4">
-                  Thank You for Contacting Us!
+                  {t("thank_you_for_contacting")}
                 </h1>
                 <p className="text-muted-foreground mb-8">
-                  Your support request has been submitted successfully. Our team will review your message 
-                  and get back to you as soon as possible.
+                  {t("support_request_submitted")}
                 </p>
-                
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-4">
-                      Get Immediate Help Through Our Support Channels
+                      {t("get_immediate_help")}
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
                       {supportChannels.map((channel) => (
@@ -98,22 +129,21 @@ const Support = () => {
                       ))}
                     </div>
                   </div>
-
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-4">
-                      Quick Links
+                      {t("quick_links")}
                     </h3>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <Button variant="outline" asChild>
                         <a href="/feedback">
                           <MessageSquare className="w-4 h-4 mr-2" />
-                          Feedback Group
+                          {t("feedback_group")}
                         </a>
                       </Button>
                       <Button className="bg-gradient-primary hover:shadow-glow" asChild>
                         <a href="/investment">
                           <ExternalLink className="w-4 h-4 mr-2" />
-                          Investment Plans
+                          {t("investment_plans")}
                         </a>
                       </Button>
                     </div>
@@ -135,14 +165,13 @@ const Support = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-gradient-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium mb-4">
               <MessageSquare className="w-4 h-4" />
-              <span>Support Center</span>
+              <span>{t("support_center")}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-              How Can We Help?
+              {t("how_can_we_help")}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Get the support you need from our dedicated team. We're here to help you 
-              with any questions or concerns about your investments.
+              {t("support_hero_desc")}
             </p>
           </div>
 
@@ -153,74 +182,74 @@ const Support = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Mail className="w-5 h-5" />
-                    <span>Contact Support</span>
+                    <span>{t("contact_support")}</span>
                   </CardTitle>
                   <CardDescription>
-                    Fill out the form below and we'll get back to you as soon as possible
+                    {t("contact_support_desc")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Full Name *</Label>
+                        <Label htmlFor="name">{t("full_name")} *</Label>
                         <Input
                           id="name"
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="Your full name"
+                          placeholder={t("your_full_name")}
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address *</Label>
+                        <Label htmlFor="email">{t("email_address")} *</Label>
                         <Input
                           id="email"
                           name="email"
                           type="email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          placeholder="your@email.com"
+                          placeholder={t("your_email")}
                           required
                         />
                         <p className="text-xs text-muted-foreground">
-                          Don't worry if your email format isn't perfect - we'll still help you!
+                          {t("email_help_text")}
                         </p>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="whatsapp">WhatsApp Number (Optional)</Label>
+                      <Label htmlFor="whatsapp">{t("whatsapp_number")} ({t("optional")})</Label>
                       <Input
                         id="whatsapp"
                         name="whatsapp"
                         value={formData.whatsapp}
                         onChange={handleInputChange}
-                        placeholder="+1234567890"
+                        placeholder={t("whatsapp_placeholder")}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="subject">Subject *</Label>
+                      <Label htmlFor="subject">{t("subject")} *</Label>
                       <Input
                         id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleInputChange}
-                        placeholder="What is your inquiry about?"
+                        placeholder={t("subject_placeholder")}
                         required
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message *</Label>
+                      <Label htmlFor="message">{t("message")} *</Label>
                       <Textarea
                         id="message"
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
-                        placeholder="Please describe your issue or question in detail..."
+                        placeholder={t("message_placeholder")}
                         rows={6}
                         required
                       />
@@ -228,17 +257,19 @@ const Support = () => {
 
                     <Button type="submit" className="w-full bg-gradient-primary hover:shadow-glow" size="lg">
                       <MessageSquare className="w-4 h-4 mr-2" />
-                      Send Message
+                      {loading ? t("sending") : t("send_message")}
                     </Button>
                   </form>
+                  {error && <p className="text-sm text-red-500 mt-4">{error}</p>}
+                  {success && <p className="text-sm text-green-500 mt-4">{t("message_sent_successfully")}</p>}
                 </CardContent>
               </Card>
 
               {/* FAQ Section */}
               <Card className="bg-gradient-card border-border/50 mt-8">
                 <CardHeader>
-                  <CardTitle>Frequently Asked Questions</CardTitle>
-                  <CardDescription>Quick answers to common questions</CardDescription>
+                  <CardTitle>{t("frequently_asked_questions")}</CardTitle>
+                  <CardDescription>{t("faq_quick_answers")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {faqItems.map((item, index) => (
@@ -256,8 +287,8 @@ const Support = () => {
               {/* Support Channels */}
               <Card className="bg-gradient-card border-border/50">
                 <CardHeader>
-                  <CardTitle>Direct Support Channels</CardTitle>
-                  <CardDescription>Get instant help through our social platforms</CardDescription>
+                  <CardTitle>{t("direct_support_channels")}</CardTitle>
+                  <CardDescription>{t("get_instant_help_social")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {supportChannels.map((channel) => (
@@ -289,21 +320,21 @@ const Support = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Clock className="w-5 h-5" />
-                    <span>Response Times</span>
+                    <span>{t("response_times")}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Email Support</span>
-                    <Badge variant="outline">24-48 hours</Badge>
+                    <span className="text-sm text-muted-foreground">{t("email_support")}</span>
+                    <Badge variant="outline">24-48 {t("hours")}</Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Live Chat</span>
-                    <Badge variant="default">Instant</Badge>
+                    <span className="text-sm text-muted-foreground">{t("live_chat")}</span>
+                    <Badge variant="default">{t("instant")}</Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Social Media</span>
-                    <Badge variant="outline">2-6 hours</Badge>
+                    <span className="text-sm text-muted-foreground">{t("social_media")}</span>
+                    <Badge variant="outline">2-6 {t("hours")}</Badge>
                   </div>
                 </CardContent>
               </Card>
@@ -311,21 +342,21 @@ const Support = () => {
               {/* Office Hours */}
               <Card className="bg-gradient-card border-border/50">
                 <CardHeader>
-                  <CardTitle>Support Hours</CardTitle>
+                  <CardTitle>{t("support_hours")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Monday - Friday</span>
+                      <span className="text-muted-foreground">{t("monday_friday")}</span>
                       <span className="font-medium">24/7</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Weekend</span>
+                      <span className="text-muted-foreground">{t("weekend")}</span>
                       <span className="font-medium">24/7</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Emergency</span>
-                      <span className="font-medium">Always Available</span>
+                      <span className="text-muted-foreground">{t("emergency")}</span>
+                      <span className="font-medium">{t("always_available")}</span>
                     </div>
                   </div>
                 </CardContent>
