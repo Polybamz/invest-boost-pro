@@ -13,11 +13,11 @@ const Navigation = () => {
   const navigationItems = [
     { name: "Investment", href: "/investment", icon: TrendingUp, important: false },
     { name: "Feedback", href: "/feedback", icon: MessageCircle, important: false },
-    { name: "Employment", href: "/employment", icon: Briefcase, important: false },
+    // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
     { name: "Referring", href: "/referring", icon: Users },
     { name: "Shop", href: "/shop", icon: ShoppingCart },
     { name: "Buy Crypto", href: "/buy-crypto", icon: Gift },
-    { name: "Blog", href: "/blog", icon: FileText },
+    // { name: "Blog", href: "/blog", icon: FileText },
     { name: "Support", href: "/support", icon: Headphones },
   ];
 
@@ -75,6 +75,9 @@ const Navigation = () => {
               <Link to={'/profile'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><User />My Profile</Link>
               <Link to={'/settings'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><Settings /> {'Settings'}</Link>
               <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4" onClick={logOut}><LogOut className="text-red-500" /> {'Logout'}</div>
+              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Withdraw</button>
+              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Deposite</button>
+
             </div>)}
           </div>
         </div>
@@ -105,8 +108,10 @@ const Navigation = () => {
                   </Link>
                 );
               })}
-              <Link to={'/settings'} className="flex items-center justify-center gap-2 space-x-1 text-[15px] text-foreground "><User /> {'Settings'}</Link>
+              <Link to={'/settings'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground "><User /> {'Settings'}</Link>
               <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer" onClick={logOut}><User /> {'Logout'}</div>
+              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Withdraw</button>
+              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Deposite</button>
             </div>
           </div>
         )}
