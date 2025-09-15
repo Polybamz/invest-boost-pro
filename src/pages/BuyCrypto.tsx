@@ -5,8 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Bitcoin, TrendingUp, CreditCard, Wallet, ArrowUpDown, DollarSign } from "lucide-react";
+import { Bitcoin, TrendingUp, CreditCard, Wallet, ArrowUpDown, DollarSign, Copy, Check } from "lucide-react";
 import Layout from "@/components/Layout";
+import {QRCodeSVG} from "qrcode.react";
 
 interface Cryptocurrency {
   id: string;
@@ -15,26 +16,30 @@ interface Cryptocurrency {
   price: number;
   change24h: number;
   icon: string;
+  walletAddress: string;
+  network?: string;
 }
 
 const BuyCrypto = () => {
   const [selectedCrypto, setSelectedCrypto] = useState<string>("bitcoin");
   const [amount, setAmount] = useState<string>("100");
   const [currency, setCurrency] = useState<string>("USD");
+  const [copied, setCopied] = useState<boolean>(false);
+  const [copiedAddress, setCopiedAddress] = useState<string>("");
 
   const cryptocurrencies: Cryptocurrency[] = [
-    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", price: 43250.75, change24h: 2.45, icon: "₿" },
-    { id: "ethereum", name: "Ethereum", symbol: "ETH", price: 2650.30, change24h: -1.25, icon: "⧫" },
-    { id: "binancecoin", name: "BNB", symbol: "BNB", price: 315.80, change24h: 3.15, icon: "⬢" },
-    { id: "ripple", name: "XRP", symbol: "XRP", price: 0.52, change24h: 5.67, icon: "◊" },
-    { id: "cardano", name: "Cardano", symbol: "ADA", price: 0.48, change24h: -2.13, icon: "₳" },
-    { id: "solana", name: "Solana", symbol: "SOL", price: 98.45, change24h: 7.89, icon: "◎" },
-    { id: "polkadot", name: "Polkadot", symbol: "DOT", price: 7.25, change24h: 1.45, icon: "●" },
-    { id: "chainlink", name: "Chainlink", symbol: "LINK", price: 15.67, change24h: -0.85, icon: "⬣" },
-    { id: "litecoin", name: "Litecoin", symbol: "LTC", price: 72.35, change24h: 0.95, icon: "Ł" },
-    { id: "polygon", name: "Polygon", symbol: "MATIC", price: 0.89, change24h: 4.23, icon: "⬟" },
-    { id: "avalanche", name: "Avalanche", symbol: "AVAX", price: 36.78, change24h: 2.87, icon: "▲" },
-    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE", price: 0.085, change24h: 6.42, icon: "Ð" }
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", price: 43250.75, change24h: 2.45, icon: "₿", walletAddress: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", network: "Bitcoin Mainnet" },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH", price: 2650.30, change24h: -1.25, icon: "⧫", walletAddress: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e", network: "Ethereum ERC20" },
+    { id: "binancecoin", name: "BNB", symbol: "BNB", price: 315.80, change24h: 3.15, icon: "⬢", walletAddress: "bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2", network: "BNB Beacon Chain" },
+    { id: "ripple", name: "XRP", symbol: "XRP", price: 0.52, change24h: 5.67, icon: "◊", walletAddress: "rP4t9k4hVZfTLiJfM7K2ZJzLp1oNE6zYe2", network: "XRP Ledger" },
+    { id: "cardano", name: "Cardano", symbol: "ADA", price: 0.48, change24h: -2.13, icon: "₳", walletAddress: "addr1q9ql23j6g9dq2u6jy7q9yhhz0h0hqcyq5qw5qkq", network: "Cardano Mainnet" },
+    { id: "solana", name: "Solana", symbol: "SOL", price: 98.45, change24h: 7.89, icon: "◎", walletAddress: "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM", network: "Solana Mainnet" },
+    { id: "polkadot", name: "Polkadot", symbol: "DOT", price: 7.25, change24h: 1.45, icon: "●", walletAddress: "1FRMM8PEiWXYax7rpS6X4XZX1aAAxSWx1CrKTyrVYhV24fg", network: "Polkadot Relay Chain" },
+    { id: "chainlink", name: "Chainlink", symbol: "LINK", price: 15.67, change24h: -0.85, icon: "⬣", walletAddress: "0x6B175474E89094C44Da98b954EedeAC495271d0F", network: "Ethereum ERC20" },
+    { id: "litecoin", name: "Litecoin", symbol: "LTC", price: 72.35, change24h: 0.95, icon: "Ł", walletAddress: "LSN5D48a7R7Vc5d3VtJqqVvJVkFkXhL7qR", network: "Litecoin Mainnet" },
+    { id: "polygon", name: "Polygon", symbol: "MATIC", price: 0.89, change24h: 4.23, icon: "⬟", walletAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", network: "Polygon Mainnet" },
+    { id: "avalanche", name: "Avalanche", symbol: "AVAX", price: 36.78, change24h: 2.87, icon: "▲", walletAddress: "X-avax1q9ql23j6g9dq2u6jy7q9yhhz0h0hqcyq5qw5qkq", network: "Avalanche C-Chain" },
+    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE", price: 0.085, change24h: 6.42, icon: "Ð", walletAddress: "D9c7jo6k6X2kS9FqJ4q4qJ4q4qJ4q4qJ4q", network: "Dogecoin Mainnet" }
   ];
 
   const paymentMethods = [
@@ -45,6 +50,37 @@ const BuyCrypto = () => {
 
   const selectedCryptoData = cryptocurrencies.find(c => c.id === selectedCrypto);
   const cryptoAmount = selectedCryptoData ? (parseFloat(amount || "0") / selectedCryptoData.price) : 0;
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedAddress(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const generateQRCodeValue = () => {
+    if (!selectedCryptoData) return "";
+    
+    const { symbol, walletAddress } = selectedCryptoData;
+    const amount = cryptoAmount.toFixed(8);
+    
+    const uriSchemes: Record<string, string> = {
+      BTC: `bitcoin:${walletAddress}?amount=${amount}`,
+      ETH: `ethereum:${walletAddress}?value=${amount}`,
+      BNB: `binance:${walletAddress}?amount=${amount}`,
+      XRP: `ripple:${walletAddress}?amount=${amount}`,
+      ADA: `cardano:${walletAddress}?amount=${amount}`,
+      SOL: `solana:${walletAddress}?amount=${amount}`,
+      DOT: `polkadot:${walletAddress}?amount=${amount}`,
+      LINK: `ethereum:${walletAddress}?value=${amount}`,
+      LTC: `litecoin:${walletAddress}?amount=${amount}`,
+      MATIC: `polygon:${walletAddress}?amount=${amount}`,
+      AVAX: `avalanche:${walletAddress}?amount=${amount}`,
+      DOGE: `dogecoin:${walletAddress}?amount=${amount}`
+    };
+    
+    return uriSchemes[symbol] || walletAddress;
+  };
 
   return (
     <Layout>
@@ -145,8 +181,59 @@ const BuyCrypto = () => {
                     </div>
                   )}
 
+                  {/* Wallet Address Display */}
+                  {selectedCryptoData && (
+                    <div className="space-y-4">
+                      <Label>Send {selectedCryptoData.symbol} to this address</Label>
+                      <Card className="cursor-pointer hover:bg-accent/5 transition-colors border border-border/50">
+                        <CardContent className="p-4">
+                          <div className="flex flex-col items-center space-y-4">
+                            {/* QR Code */}
+                            <div className="p-2 bg-white rounded-lg border border-border/30">
+                              <QRCodeSVG 
+                                value={generateQRCodeValue()} 
+                                size={160}
+                                level="M"
+                                includeMargin
+                              />
+                            </div>
+                            
+                            {/* Wallet Address */}
+                            <div className="w-full">
+                              <Label className="text-sm text-muted-foreground mb-2">
+                                {selectedCryptoData.name} Wallet Address
+                              </Label>
+                              <div className="flex items-center justify-between p-2 bg-muted rounded-md">
+                                <span className="text-sm font-mono truncate">
+                                  {selectedCryptoData.walletAddress}
+                                </span>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => copyToClipboard(selectedCryptoData.walletAddress)}
+                                  className="h-8 w-8"
+                                >
+                                  {copied && copiedAddress === selectedCryptoData.walletAddress ? (
+                                    <Check className="h-4 w-4 text-green-500" />
+                                  ) : (
+                                    <Copy className="h-4 w-4" />
+                                  )}
+                                </Button>
+                              </div>
+                            </div>
+                            
+                            <p className="text-sm text-muted-foreground text-center">
+                              Send exactly {cryptoAmount.toFixed(8)} {selectedCryptoData.symbol} to this address. 
+                              Transactions typically take 5-30 minutes to confirm.
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
+
                   {/* Payment Methods */}
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <Label>Payment Method</Label>
                     <div className="grid grid-cols-1 gap-3">
                       {paymentMethods.map((method) => (
@@ -163,12 +250,12 @@ const BuyCrypto = () => {
                         </Card>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
 
-                  <Button className="w-full bg-gradient-primary hover:shadow-glow" size="lg">
+                 <a href="/" ><Button className="w-full bg-gradient-primary hover:shadow-glow" size="lg">
                     <Bitcoin className="w-4 h-4 mr-2" />
                     Buy {selectedCryptoData?.symbol || "Crypto"}
-                  </Button>
+                  </Button></a>
                 </CardContent>
               </Card>
             </div>
