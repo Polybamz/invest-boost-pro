@@ -124,5 +124,20 @@
   "emergency": "Urgence",
   "always_available": "Toujours disponible",
     "total_referrals": "Total des parrainages",
-    "earn_while_you_share" : "Gagnez en partageant"
+    "earn_while_you_share" : "Gagnez en partageant",
+    "start_trading_crypto": "Commencer à acheter des crypto",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "email": "Email",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "create_account": "Créer un compte",
+    "welcome_back": "Bienvenue à nouveau",
+    "login": "Se connecter",
+    "user_feedback_testimonials": "Témoignages et avis des utilisateurs",
+      "what_our_users_say": "Ce que disent nos utilisateurs",
+        "real_feedback_desc": "Des retours d'expérience de vrais utilisateurs ayant utilisé notre plateforme avec succès. Rejoignez dès aujourd'hui des milliers d'investisseurs satisfaits."
+
+
+
 }

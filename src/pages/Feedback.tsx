@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExternalLink, Calendar, DollarSign, Users, MessageSquare, Edit, Plus } from "lucide-react";
 import Layout from "@/components/Layout";
+import { useFeedback } from "@/hooks/useFeedback";
 
 interface Testimonial {
   id: number;
@@ -30,8 +31,9 @@ interface PaidUser {
 const Feedback = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { t } = useTranslation();
+  const { isLoading, error, testimonials:feedback , addTestimonial} = useFeedback();
 
-  const testimonials: Testimonial[] = [
+  const testimonials:Testimonial[] = feedback || [
     {
       id: 1,
       user: "John Mitchell",
@@ -51,28 +53,10 @@ const Feedback = () => {
       message: t("testimonial_2"),
       link: "https://facebook.com/post/456",
       avatar: "/placeholder.svg"
-    },
-    {
-      id: 3,
-      user: "Mike Rodriguez",
-      platform: "instagram",
-      amount: 2500,
-      date: "2024-01-13",
-      message: t("testimonial_3"),
-      link: "https://instagram.com/p/789",
-      avatar: "/placeholder.svg"
-    },
-    {
-      id: 4,
-      user: "Emily Chen",
-      platform: "whatsapp",
-      amount: 500,
-      date: "2024-01-12",
-      message: t("testimonial_4"),
-      link: "https://wa.me/feedback/321",
-      avatar: "/placeholder.svg"
     }
   ];
+
+  console.log('FeeeeeeeeeeeeeeeeBbbbbbbbbbbbbbbbbaaaaaaaaaaaaacccccccccccccckkkkkkkkkk',feedback)
 
   const todaysPaidUsers: PaidUser[] = [
     { id: 1, name: "Alex Thompson", amount: 175, plan: "Plan 2", date: "2024-01-16", time: "09:15 AM" },
@@ -111,6 +95,32 @@ const Feedback = () => {
       default: return "??";
     }
   };
+if(error){
+  return (
+    <Layout>
+      <div className="min-h-screen py-12 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">{error}</p>
+          {/* <Button onClick={() => addTestimonial({})}>Try Again</Button> */}
+        </div>
+      </div>
+      </Layout>
+  )
+}
+
+ if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-screen py-12 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading your userTestimonial...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
 
   return (
     <Layout>
@@ -153,7 +163,20 @@ const Feedback = () => {
             <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
               {t('success_stories_testimonials')}
             </h2>
+            {
+                testimonials.length === 0 && (  
+                  <div className="text-center border w-full border-border/50 rounded-md p-8">
+                    <p className="text-muted-foreground">{t('no_testimonials_yet')}</p>
+                    {isEditing && (
+                      <Button size="sm" variant="outline" onClick={() => {}}>
+                        {t('add_testimonial')}
+                      </Button>
+                    )}
+                  </div>
+                )
+              }
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
               {testimonials.map((testimonial) => (
                 <Card key={testimonial.id} className="bg-gradient-card border-border/50 hover:shadow-premium transition-all duration-300">
                   <CardHeader>

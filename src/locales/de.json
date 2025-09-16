@@ -65,7 +65,6 @@
   "instant_payouts_desc": "Ziehen Sie Ihre Gewinne jederzeit sofort ab.",
   "important_categories": "Wichtige Kategorien",
   "important_categories_desc": "Wichtige Funktionen für Ihren Investitionserfolg",
-  "investment_plans": "Investitionspläne",
   "important": "Wichtig",
   "investment_plans_desc": "Entdecken Sie unsere profitablen Investitionspläne mit garantierten Renditen",
   "view_plans": "Pläne ansehen",
@@ -128,5 +127,16 @@
   "emergency": "Notfall",
   "always_available": "Immer verfügbar",
     "total_referrals": "Gesamtanzahl der Empfehlungen",
-    "earn_while_you_share" : "Verdienen Sie, während Sie teilen"
+    "earn_while_you_share" : "Verdienen Sie, während Sie teilen",
+    "start_trading_crypto" : "Starten Sie den Handel mit Krypto",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "email": "E-Mail",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "create_account": "Konto erstellen",
+    "welcome_back": "Willkommen zurück",
+    "login": "Anmelden"
+  
+    
 }

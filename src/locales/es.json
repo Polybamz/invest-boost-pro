@@ -93,7 +93,6 @@
   "get_immediate_help": "Obtén ayuda inmediata",
   "quick_links": "Enlaces rápidos",
   "feedback_group": "Grupo de comentarios",
-  "investment_plans": "Planes de inversión",
   "support_center": "Centro de soporte",
   "how_can_we_help": "¿Cómo podemos ayudarte hoy?",
   "support_hero_desc": "Nuestro equipo de soporte está aquí para ayudarte con cualquier pregunta o problema.",
@@ -128,5 +127,15 @@
   "emergency": "Emergencia",
   "always_available": "Siempre disponible",
     "total_referrals": "Total de referidos",
-    "earn_while_you_share" : "Gana mientras compartes"
+    "earn_while_you_share" : "Gana mientras compartes",
+    "start_trading_crypto": "Comienza a invertir en criptomonedas",
+    "username": "Username",
+  "password": "Password",
+  "email":"Email",
+  "first_name": "Nombre",
+  "last_name": "Apellido",
+  "create_account": "Crear cuenta",
+  "welcome_back":"¡Bienvenido de nuevo!",
+  "login": "Iniciar sesión"
+  
 }

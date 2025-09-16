@@ -17,6 +17,7 @@ import Authentication from "./pages/Authentication";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Settings from "./pages/Settings";
 import AdminPortal from "./pages/AdminPortal";
+import WalletPage from './pages/Transaction'
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/investment" element={<Investment />} />
+              <Route path="/transaction" element={<WalletPage />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/referring" element={<Referring />} />
               <Route path="/buy-crypto" element={<BuyCrypto />} />

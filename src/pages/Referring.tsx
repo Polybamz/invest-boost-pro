@@ -244,7 +244,7 @@ const Referring = () => {
                     </Label>
                     <div className="flex space-x-2">
                       <Input 
-                        value={`${baseURL}/auth/${user?.referralCode}`} 
+                        value={`${baseURL}/auth/${user['referralCode']}`} 
                         readOnly 
                         className="flex-1 font-mono text-sm" 
                       />
@@ -252,7 +252,7 @@ const Referring = () => {
                         size="icon" 
                         variant={copiedLink ? "default" : "outline"}
                         onClick={() => handleCopy(
-                          `${baseURL}/auth/${user?.referralCode}`, 
+                          `${baseURL}/auth/${user['referralCode']}`, 
                           setCopiedLink, 
                           "Link copied! 🎉"
                         )}
@@ -269,7 +269,7 @@ const Referring = () => {
                     </Label>
                     <div className="flex space-x-2">
                       <Input 
-                        value={user?.referralCode || "Loading..."} 
+                        value={user['referralCode'] || "Loading..."} 
                         readOnly 
                         className="flex-1 font-mono text-sm font-bold" 
                       />
@@ -277,11 +277,11 @@ const Referring = () => {
                         size="icon" 
                         variant={copiedCode ? "default" : "outline"}
                         onClick={() => handleCopy(
-                          user?.referralCode || "", 
+                          user['referralCode'] || "", 
                           setCopiedCode, 
                           "Code copied! ✨"
                         )}
-                        disabled={!user?.referralCode}
+                        disabled={!user['referralCode']}
                       >
                         {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                       </Button>
@@ -405,7 +405,7 @@ const Referring = () => {
                       : "Start sharing your referral code to build your network!"
                     }
                   </p>
-                  <Button onClick={() => handleCopy(user?.referralCode || "", setCopiedCode, "Code copied!")}>
+                  <Button onClick={() => handleCopy(user['referralCode'] || "", setCopiedCode, "Code copied!")}>
                     
                     <Share2 className="w-4 h-4 mr-2" />
                     Copy Referral Code

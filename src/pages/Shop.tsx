@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Cpu, Zap, Shield, TrendingUp } from "lucide-react";
 import Layout from "@/components/Layout";
 import { useTranslation } from "react-i18next";
+import { useShop } from "@/hooks/useShop";
 
 interface MiningMachine {
   id: number;
@@ -19,7 +20,21 @@ interface MiningMachine {
 
 const Shop = () => {
   const { t } = useTranslation();
-  const machines: MiningMachine[] = [
+  const { products, isLoading, error } = useShop();
+
+   if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-screen py-12 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading your equipment...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+  const machines: MiningMachine[] = products || [
     {
       id: 1,
       name: "AntMiner S19 Pro",

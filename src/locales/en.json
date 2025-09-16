@@ -50,7 +50,6 @@
   "ready_to_start_investment_journey": "Ready to Start Your Investment Journey?",
   "cta_desc": "Join thousands of investors who trust our platform for consistent, profitable returns. Your financial freedom starts here.",
   "get_started_now": "Get Started Now",
-  "contact_support": "Contact Support",
   "telegram_support": "Telegram Support",
   "join_telegram_group": "Join our Telegram group for instant help.",
   "faq_how_start_investing": "How do I start investing?",
@@ -101,5 +100,20 @@
   "emergency": "Emergency",
   "always_available": "Always Available",
   "total_referrals": "Total Referrals",
-  "earn_while_you_share" : "Earn while you share"
+  "earn_while_you_share" : "Earn while you share",
+  "start_trading_crypto": "Start Trading Crypto",
+  "username": "Username",
+  "password": "Password",
+  "email":"Email",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "create_account" : "Create Account",
+  "welcome_back": "Welcome Back",
+  "login": "Login",
+  "user_feedback_testimonials": "User Feedback & Testimonials",
+  "what_our_users_say": "What Our Users Say",
+      "success_stories_testimonials": "Success Stories & Testimonials",
+              "real_feedback_desc": "Real feedback from real users who have had success with our platform. Join thousands of satisfied investors today."
+
+
 }

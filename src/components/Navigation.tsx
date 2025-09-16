@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Home, Headphones, Briefcase, Gift, User, Settings, LogOut } from "lucide-react";
+import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Home, Headphones, Briefcase, Gift, User, Settings, LogOut, Wallet } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 
 const Navigation = () => {
@@ -12,16 +13,17 @@ const Navigation = () => {
   const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
   const { user, logOut } = useAuth();
+  const { t } = useTranslation();
   const navigationItems = [
-    { name: "Home", href: "/", icon: Home, important: false },
-    { name: "Investment", href: "/investment", icon: TrendingUp, important: false },
-    { name: "Feedback", href: "/feedback", icon: MessageCircle, important: false },
+    { name: t("home"), href: "/", icon: Home, important: false, target:"_self" },
+    { name: t("investment"), href: "/investment", icon: TrendingUp, important: false, target:"_self" },
+    { name: t("feedback"), href: "/feedback", icon: MessageCircle, important: false, target:"_self" },
     // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
-    { name: "Referring", href: "/referring", icon: Users },
-    { name: "Shop", href: "/shop", icon: ShoppingCart },
-    { name: "Buy Crypto", href: "/buy-crypto", icon: Gift },
+    { name: t("referring"), href: "/referring", icon: Users, target:"_self" },
+    { name: t("shop"), href: "/shop", icon: ShoppingCart, target:"_self" },
+    { name: t("buycrypto"), href: "/buy-crypto", icon: Gift, target: "_blank" },
     // { name: "Blog", href: "/blog", icon: FileText },
-    { name: "Support", href: "/support", icon: Headphones },
+    { name: t("support"), href: "/support", icon: Headphones, target:"_self" },
   ];
 
   return (
@@ -43,7 +45,7 @@ const Navigation = () => {
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500' : ''}`}>
+                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500' : ''}`} target={item.target}>
                   {/* <Button
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
@@ -79,8 +81,8 @@ const Navigation = () => {
               <Link to={'/profile'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><User />My Profile</Link>
               <Link to={'/settings'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><Settings /> {'Settings'}</Link>
               <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4" onClick={logOut}><LogOut className="text-red-500" /> {'Logout'}</div>
-              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Withdraw</button>
-              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Deposite</button>
+              <Link to={'/transaction'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><Wallet /> {'Transactions(Withdraw/Deposite)'}</Link>
+
 
             </div>)}
           </div>
@@ -90,11 +92,12 @@ const Navigation = () => {
         {isOpen && (
           <div className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card rounded-lg mt-2 mb-4 shadow-card">
-              <p>{user.firstName} {user.lastName}</p>
+              <p>{user["firstName"]} {user['lastName']}</p>
               {navigationItems.map((item) => {
                 const isActive = location.pathname === item.href;
+                
                 return (
-                  <Link key={item.name} to={item.href}>
+                  <Link key={item.name} to={item.href} target={item.target}>
                     <Button
                       variant={isActive ? "default" : "ghost"}
                       size="sm"
@@ -113,9 +116,9 @@ const Navigation = () => {
                 );
               })}
               <Link to={'/settings'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground "><User /> {'Settings'}</Link>
-              <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer" onClick={logOut}><User /> {'Logout'}</div>
-              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Withdraw</button>
-              <button className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer hover:bg-gradient-primary  py-2 px-4">Deposite</button>
+              <div className="flex items-center justify-start gap-2 space-x-1 text-[15px]  text-foreground cursor-pointer" onClick={logOut}><LogOut className="text-red-500" /> {'Logout'}</div>
+                 <Link to={'/transaction'} className="flex items-center justify-start gap-2 space-x-1 text-[15px] text-foreground hover:bg-gradient-primary  py-2 px-4 "><Wallet /> {'Transactions(Withdraw/Deposite)'}</Link>
+
             </div>
           </div>
         )}
