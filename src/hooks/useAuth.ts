@@ -29,6 +29,8 @@ export const useAuth = () => {
     // Handle auth state changes
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
+        console.log('fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhffffffffffffffffffff')
+        console.log(storedUser)
         if (storedUser) {
             setAuthState({
                 user: JSON.parse(storedUser),
@@ -59,10 +61,10 @@ export const useAuth = () => {
                 },
                 body: JSON.stringify({ "email": email, "password": password })
             });
-            console.log(response)
+            console.log( 'dddddddddddddddddddddddddddddd',response)
 
             const data = await response.json();
-            console.log(data);
+            console.log('data',data);
             setAuthState({
                 user: data.data,
                 loading: false,
@@ -107,6 +109,7 @@ export const useAuth = () => {
             });
 
             const data = await response.json();
+            console.log(data);
             setAuthState({
                 user: data.data,
                 loading: false,

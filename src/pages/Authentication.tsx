@@ -22,13 +22,15 @@ const Authentication = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
-   const [referredBy, setReferredBy] = useState(ref || ''); // string
+   const [referredBy, setReferredBy] = useState(ref || null); // string
 
     
     // Destructure state and functions from the custom useAuth hook
     // The hook now handles the loading and error states for us.
     const { loading, error,user,signIn, register } = useAuth();
 
+    console.log('Muserrrrrrrrrrrrrrrr',user)
+   // localStorage.clear();
     // The single function to handle both login and sign up form submissions
     const handleFormSubmit = async (e) => {
         e.preventDefault();
