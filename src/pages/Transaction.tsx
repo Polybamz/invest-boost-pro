@@ -38,7 +38,7 @@ const WalletPage = () => {
     if(user){
         setTimeout(() => {
       setBalance({
-        xaf: user['walletBalance'],
+        xaf: user['walletBalance'] ?? 0,
         btc: 0.0054,
         eth: 0.12
       });
@@ -99,7 +99,7 @@ const WalletPage = () => {
         }
     
   })
-
+console.log('userrrrrrrrrrrrrrrrrrrrrrrrrrrrr ',user)
   return (
     <Layout>
       <div className="min-h-screen flex items-center justify-center py-12 px-4">
@@ -148,12 +148,12 @@ const WalletPage = () => {
                       <CardTitle>Choose Deposit Method</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <Tabs defaultValue="momo" className="w-full">
+                      <Tabs defaultValue="crypto" className="w-full">
                         <TabsList className="grid w-full grid-cols-5 mb-4">
-                          <TabsTrigger value="momo">MoMo</TabsTrigger>
+                          {/* <TabsTrigger value="momo">MoMo</TabsTrigger>
                           <TabsTrigger value="orange">Orange</TabsTrigger>
                           <TabsTrigger value="airtel">Airtel</TabsTrigger>
-                          <TabsTrigger value="card">Card</TabsTrigger>
+                          <TabsTrigger value="card">Card</TabsTrigger> */}
                           <TabsTrigger value="crypto">Crypto</TabsTrigger>
                         </TabsList>
                         

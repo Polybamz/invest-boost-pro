@@ -269,8 +269,8 @@ if(error){
                         <th className="text-left py-3 px-2">#</th>
                         <th className="text-left py-3 px-2">{t('user')}</th>
                         <th className="text-left py-3 px-2">{t('amount')}</th>
-                        <th className="text-left py-3 px-2">{t('plan')}</th>
-                        <th className="text-left py-3 px-2">{t('time')}</th>
+                        {/* <th className="text-left py-3 px-2">{t('plan')}</th> */}
+                        {/* <th className="text-left py-3 px-2">{t('time')}</th> */}
                         <th className="text-left py-3 px-2">{t('proof')}</th>
                         {isEditing && <th className="text-left py-3 px-2">{t('actions')}</th>}
                       </tr>
@@ -283,10 +283,10 @@ if(error){
                           <td className="py-3 px-2">
                             <span className="font-semibold text-accent">${user.amount}</span>
                           </td>
-                          <td className="py-3 px-2">
+                          {/* <td className="py-3 px-2">
                             <Badge variant="outline">{user.plan}</Badge>
-                          </td>
-                          <td className="py-3 px-2 text-sm text-muted-foreground">{user.time}</td>
+                          </td> */}
+                          {/* <td className="py-3 px-2 text-sm text-muted-foreground">{user.time}</td> */}
                           <td className="py-3 px-2">
                             <Button size="sm" variant="outline" asChild>
                               <a href={`https://etherscan.io/tx/0x${user.id}`} target="_blank" rel="noopener noreferrer">

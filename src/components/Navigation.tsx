@@ -20,12 +20,16 @@ const Navigation = () => {
     { name: t("feedback"), href: "/feedback", icon: MessageCircle, important: false, target:"_self" },
     // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
     { name: t("referring"), href: "/referring", icon: Users, target:"_self" },
-    { name: t("shop"), href: "/shop", icon: ShoppingCart, target:"_self" },
-    { name: t("buycrypto"), href: "/buy-crypto", icon: Gift, target: "_blank" },
+   // { name: t("shop"), href: "/shop", icon: ShoppingCart, target:"_self" },
+    //{ name: t("buycrypto"), href: "/buy-crypto", icon: Gift, target: "_blank" },
     // { name: "Blog", href: "/blog", icon: FileText },
     { name: t("support"), href: "/support", icon: Headphones, target:"_self" },
+    { name: t("Take a Loan"), href: "/loans", icon: User, target:"_self" },
   ];
-
+ const handleRedirect = () => {
+    // Redirect the user to an external website
+    window.location.href = 'https://noones.com/?r=Cryptoboost2016';
+  };
   return (
     <nav className="bg-gradient-hero border-b border-border/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,6 +68,7 @@ const Navigation = () => {
             })}
           </div>
           <LanguageSwitcher />
+          <Button onClick={handleRedirect}>Buy Crypto</Button>
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">

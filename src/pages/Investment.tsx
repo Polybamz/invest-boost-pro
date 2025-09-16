@@ -26,7 +26,7 @@ const Investment = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { makeInvestment, investmentsPlan, transactions, loading, error, deposit, withdraw } = useTransactions();
 
-  const plans: InvestmentPlan[] = investmentsPlan ?? [
+  const plans: InvestmentPlan[] = [
     {
       id: 1,
       name: t("starter_plan"),
