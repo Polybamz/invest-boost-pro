@@ -30,7 +30,7 @@ const Authentication = () => {
     const { loading, error,user,signIn, register } = useAuth();
 
     console.log('Muserrrrrrrrrrrrrrrr',user)
-   // localStorage.clear();
+    localStorage.clear();
     // The single function to handle both login and sign up form submissions
     const handleFormSubmit = async (e) => {
         e.preventDefault();
