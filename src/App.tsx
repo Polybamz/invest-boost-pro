@@ -24,6 +24,7 @@ const queryClient = new QueryClient();
 
 import { useTranslation } from "react-i18next";
 import LoanPage from "./pages/Loan";
+import ReferralMarket from "./pages/ReferralMarket";
 
 const App = () => {
   useTranslation(); // Ensures translations are loaded
@@ -51,6 +52,7 @@ const App = () => {
               <Route path="/employment" element={<Employment />} />
               <Route path="/settings" element={<Settings />}/>
               <Route path="/loans" element={<LoanPage />} />
+              <Route path="/market" element={<ReferralMarket />} />
               <Route path="/admin-dashboard" element={<AdminPortal />} />
             </Route>
             {/* Catch-all route for 404 Not Found pages */}

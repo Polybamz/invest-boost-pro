@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent,  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Layout from "@/components/Layout";
 import { useAuth } from "@/hooks/useAuth";
+import { useLoans , Loantype} from "@/hooks/useLoans";
 
 import { CheckCircle, Info, Users, DollarSign, TrendingUp, ArrowRight } from "lucide-react";
 
@@ -13,17 +14,23 @@ const MIN_LOAN = 100;
 const MAX_LOAN = 100000;
 const REQUIRED_REFERRALS = 40;
 
+const generatLoanId = () => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
 const LoanPage = () => {
     const { user } = useAuth();
+    const {loading, error, numberOfReferrals,loanLoading, loans, looanRequest} = useLoans();
   const { t } = useTranslation();
   const [loanAmount, setLoanAmount] = useState("");
   const [loanError, setLoanError] = useState("");
   const [loanSuccess, setLoanSuccess] = useState("");
   const [loan, setLoan] = useState<{ amount: number; approved: boolean; status: string }>({ amount: 0, approved: false, status: "none" });
 
-  const userReferrals = 500// user['referrals']?.length || 0;
+  const userReferrals =  500// user['referrals']?.length || 0;
   const hasCollateral = userReferrals >= REQUIRED_REFERRALS 
   //|| user?.hasReferralMarketCollateral | false;
+  console.log('User referrals', user)
 
   const canRequestLoan = useMemo(() => {
     const amt = Number(loanAmount);
@@ -35,7 +42,7 @@ const LoanPage = () => {
     );
   }, [loanAmount, hasCollateral, loan.status]);
 
-  const handleLoanRequest = () => {
+  const handleLoanRequest = async () => {
     const amt = Number(loanAmount);
     if (!hasCollateral) {
       setLoanError(t("loan_collateral_required", { count: REQUIRED_REFERRALS }));
@@ -45,15 +52,26 @@ const LoanPage = () => {
       setLoanError(t("loan_amount_range", { min: MIN_LOAN, max: MAX_LOAN }));
       return;
     }
-    setLoan({ amount: amt, approved: true, status: "approved" });
+    const loanData: Loantype = {
+      loan_id: generatLoanId(),
+      user_id: user.uid,
+      amount: amt,
+      interest_rate: 0.01,
+      duration: 12,
+    };
+    await looanRequest(loanData);
+   // setLoan({ amount: amt, approved: true, status: "approved" });
     setLoanSuccess(t("loan_approved_and_credited", { amount: amt }));
     setLoanError("");
   };
 
   const handleLoanWithdraw = () => {
-    window.open("https://t.me/youradminusername", "_blank");
+    window.open("https://t.me/Cryptoboost2016", "_blank");
   };
+ 
+ console.log('Number of referrals', numberOfReferrals)
 
+ console.log('Can request loan', loans['success'])
  return (
   <Layout>
     <div className="min-h-screen py-12 px-4 bg-background flex flex-col items-center">
@@ -73,7 +91,7 @@ const LoanPage = () => {
       {/* Main Content: Two Columns */}
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Left: Explanation & Steps */}
-        <Card className="bg-gradient-subtle border-border/50">
+        <Card className={`bg-gradient-subtle border-border/50 ${loading && "opacity-50 blur"}`}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl">
               <Info className="w-5 h-5 text-accent" /> How It Works
@@ -96,7 +114,7 @@ const LoanPage = () => {
           </CardContent>
         </Card>
         {/* Right: Loan Form */}
-        <Card className="bg-gradient-card border-border/50 shadow-lg">
+        <Card className={`bg-gradient-card border-border/50${loading && "opacity-50 blur"}  shadow-lg`}>
           <CardHeader>
             <CardTitle className="text-2xl">{t("loan_request", "Request a Loan")}</CardTitle>
             <CardDescription>{t("loan_request_desc", "Fill out the form to request your loan. Minimum 40 referrals required.")}</CardDescription>
@@ -128,9 +146,9 @@ const LoanPage = () => {
                 disabled={!canRequestLoan}
                 size="lg"
               >
-                <ArrowRight className="w-4 h-4 mr-2" /> {t("request_loan", "Request Loan")}
+                <ArrowRight className="w-4 h-4 mr-2" /> {loanLoading ? t("requesting_loan", "Requesting Loan...") : t("request_loan", "Request Loan")}
               </Button>
-              {loan.status === "approved" && (
+              {loans['success'] == true && (
                 <Button
                   className="w-full mt-2 bg-gradient-primary"
                   onClick={handleLoanWithdraw}
