@@ -25,6 +25,7 @@ const queryClient = new QueryClient();
 import { useTranslation } from "react-i18next";
 import LoanPage from "./pages/Loan";
 import ReferralMarket from "./pages/ReferralMarket";
+import FloatingActionButton from "./components/ui/floatingactionbutton";
 
 const App = () => {
   useTranslation(); // Ensures translations are loaded
@@ -33,7 +34,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter >
           <Routes>
             {/* Public Routes */}
             <Route path="/auth/:ref" element={<Authentication />} />
@@ -58,6 +59,8 @@ const App = () => {
             {/* Catch-all route for 404 Not Found pages */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+                  <FloatingActionButton />
+
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

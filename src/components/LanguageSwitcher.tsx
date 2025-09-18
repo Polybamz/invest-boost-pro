@@ -41,9 +41,10 @@ const LanguageSwitcher: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative inline-block" ref={ref}>
+    <div className="relative inline-block" ref={ref} >
       <button
         type="button"
+        title="Select language"
         onClick={toggle}
         className="w-10 h-10 rounded-full bg-background border border-gray-300 shadow flex items-center justify-center hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
       >

@@ -1,14 +1,22 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent,  } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Layout from "@/components/Layout";
 import { useAuth } from "@/hooks/useAuth";
 import { useLoans , Loantype} from "@/hooks/useLoans";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog";
 
-import { CheckCircle, Info, Users, DollarSign, TrendingUp, ArrowRight } from "lucide-react";
+import { CheckCircle, Info, Users, DollarSign, TrendingUp, ArrowRight, Copy } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const MIN_LOAN = 100;
 const MAX_LOAN = 100000;
@@ -25,9 +33,10 @@ const LoanPage = () => {
   const [loanAmount, setLoanAmount] = useState("");
   const [loanError, setLoanError] = useState("");
   const [loanSuccess, setLoanSuccess] = useState("");
+  const [showDialog, setShowDialog] = useState(false);
   const [loan, setLoan] = useState<{ amount: number; approved: boolean; status: string }>({ amount: 0, approved: false, status: "none" });
 
-  const userReferrals = numberOfReferrals ||  500// user['referrals']?.length || 0;
+  const userReferrals = numberOfReferrals // user['referrals']?.length || 0;
   const hasCollateral = userReferrals >= REQUIRED_REFERRALS 
   //|| user?.hasReferralMarketCollateral | false;
   console.log('User referrals', user)
@@ -70,11 +79,14 @@ const LoanPage = () => {
   };
 
   useEffect(() => {
+
     if(!hasCollateral){
-      setLoanError(t("loan_collateral_required", { count: REQUIRED_REFERRALS }));
-    }
-  }, []);
- 
+      setShowDialog(true)
+      console.log('show dialog')
+    } 
+  }, [hasCollateral]);
+ console.log('Has collateral', hasCollateral)
+ console.log('User referrals', userReferrals)
  console.log('Number of referrals', numberOfReferrals)
 
  console.log('Can request loan', loans['success'])
@@ -138,6 +150,7 @@ const LoanPage = () => {
                 max={MAX_LOAN}
                 disabled={loan.status === "approved"}
               />
+
               <div className="text-xs text-muted-foreground">
                 {t("collateral_status", { status: hasCollateral ? t("met", "Met") : t("not_met", "Not met"), count: userReferrals })}
               </div>
@@ -169,6 +182,25 @@ const LoanPage = () => {
         </Card>
       </div>
     </div>
+    {/* Dialog for not eligible for loan */}
+    <Dialog
+      open={showDialog}
+      onOpenChange={() => setShowDialog(false)}
+    >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("loan_not_eligible_title", "Not Eligible for Loan")}</DialogTitle>
+          <DialogDescription>{t("loan_not_eligible_desc", "You do not have enough referrals to take a loan.\n Share your referral link to earn more. \n Click the button below to share your referral link. or \n Buy referrals from our referral market.")}</DialogDescription>
+          <Button
+            onClick={() => window.open("https://t.me/Cryptoboost2016", "_blank")}
+            size="lg"
+          >
+            <Copy className="w-4 h-4 mr-2" /> {t("share_referral_link", "Copy Referral Link")}
+          </Button>
+          <Link to='/market'><Button>Buy Referrals</Button></Link>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   </Layout>
 );
 };

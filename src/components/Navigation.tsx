@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Home, Headphones, Briefcase, Gift, User, Settings, LogOut, Wallet } from "lucide-react";
+import { Menu, X, TrendingUp, Users, ShoppingCart, MessageCircle, FileText, Home, ShoppingBag, Briefcase, Gift, User, Settings, LogOut, Wallet } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
@@ -20,10 +20,10 @@ const Navigation = () => {
     { name: t("feedback"), href: "/feedback", icon: MessageCircle, important: false, target:"_self" },
     // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
     { name: t("referring"), href: "/referring", icon: Users, target:"_self" },
-   // { name: t("shop"), href: "/shop", icon: ShoppingCart, target:"_self" },
+    { name: t("Referral Market"), href: "/market", icon: ShoppingBag, target:"_self" },
     //{ name: t("buycrypto"), href: "/buy-crypto", icon: Gift, target: "_blank" },
     // { name: "Blog", href: "/blog", icon: FileText },
-    { name: t("support"), href: "/support", icon: Headphones, target:"_self" },
+    // { name: t("support"), href: "/support", icon: Headphones, target:"_self" },
     { name: t("Take a Loan"), href: "/loans", icon: User, target:"_self" },
   ];
  const handleRedirect = () => {
