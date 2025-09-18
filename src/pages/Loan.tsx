@@ -27,7 +27,7 @@ const LoanPage = () => {
   const [loanSuccess, setLoanSuccess] = useState("");
   const [loan, setLoan] = useState<{ amount: number; approved: boolean; status: string }>({ amount: 0, approved: false, status: "none" });
 
-  const userReferrals =  500// user['referrals']?.length || 0;
+  const userReferrals = numberOfReferrals ||  500// user['referrals']?.length || 0;
   const hasCollateral = userReferrals >= REQUIRED_REFERRALS 
   //|| user?.hasReferralMarketCollateral | false;
   console.log('User referrals', user)
@@ -68,6 +68,12 @@ const LoanPage = () => {
   const handleLoanWithdraw = () => {
     window.open("https://t.me/Cryptoboost2016", "_blank");
   };
+
+  useEffect(() => {
+    if(!hasCollateral){
+      setLoanError(t("loan_collateral_required", { count: REQUIRED_REFERRALS }));
+    }
+  }, []);
  
  console.log('Number of referrals', numberOfReferrals)
 
