@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLocation } from "react-router-dom";
 import { Edit, Save, X, Phone, MessageSquare } from "lucide-react";
 
 interface SocialContact {
@@ -22,6 +23,7 @@ interface FooterData {
 
 const EditableFooter = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const location = useLocation();
   const [footerData, setFooterData] = useState<FooterData>({
     socialContacts: [
       { id: "1", platform: "Telegram", url: "https://t.me/yourgroup", icon: "TG", color: "bg-blue-500" },
@@ -61,7 +63,11 @@ const EditableFooter = () => {
       phoneNumbers: prev.phoneNumbers.map((phone, i) => i === index ? value : phone)
     }));
   };
-
+if(location.pathname === "/user-dashboard" || location.pathname === "/admin-dashboard"){
+  return (
+    <div className='h-16 w-full bg-gradient-card border-t border-border/50' ></div>
+  )
+}
   return (
     <footer className="bg-gradient-card border-t border-border/50 mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

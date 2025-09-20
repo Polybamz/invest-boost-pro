@@ -26,6 +26,10 @@ import { useTranslation } from "react-i18next";
 import LoanPage from "./pages/Loan";
 import ReferralMarket from "./pages/ReferralMarket";
 import FloatingActionButton from "./components/ui/floatingactionbutton";
+import UserDashboard from "./pages/UserDashboard";
+import CookieConsentBanner from "./components/ui/cookies_concent";
+import Uploard from "./pages/Uploard";
+import { AuthProvider } from "./AuthProder";
 
 const App = () => {
   useTranslation(); // Ensures translations are loaded
@@ -34,6 +38,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <AuthProvider>
         <BrowserRouter >
           <Routes>
             {/* Public Routes */}
@@ -51,17 +56,21 @@ const App = () => {
               <Route path="/blog" element={<Blog />} />
               <Route path="/support" element={<Support />} />
               <Route path="/employment" element={<Employment />} />
-              <Route path="/settings" element={<Settings />}/>
+              <Route path="/settings" element={<Settings />} />
               <Route path="/loans" element={<LoanPage />} />
               <Route path="/market" element={<ReferralMarket />} />
               <Route path="/admin-dashboard" element={<AdminPortal />} />
+              <Route path="/user-dashboard" element={<UserDashboard />} />
+              <Route path="/uploaddoc" element={<Uploard />} />
             </Route>
             {/* Catch-all route for 404 Not Found pages */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-                  <FloatingActionButton />
+          <FloatingActionButton />
 
         </BrowserRouter>
+        </AuthProvider>
+        <CookieConsentBanner />
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -1,18 +1,19 @@
 // src/components/Authentication.jsx
 
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const Authentication = () => {
     const { t } = useTranslation();
     const { ref } = useParams()
+    const navigate = useNavigate();
     // State to toggle between login and sign up
     const [isLogin, setIsLogin] = useState(false);
 
@@ -48,7 +49,6 @@ const Authentication = () => {
                     lastName,
                     username,
                     referredBy,
-                    createdAt: new Date().toLocaleString()
                 };
                 await register(email, password, userProfile);
                 console.log("New user created and data saved to Firestore!");
@@ -60,10 +60,12 @@ const Authentication = () => {
         }
     };
 
-    if(user){
-        window.location.href = "/";
-        return null;
-    }
+   React.useEffect(() => {
+        // Only redirect if the user state is not null and we are not in a loading state
+        if (user && !loading) {
+            navigate("/", { replace: true });
+        }
+    }, [user, loading, navigate]);
 
     console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM',ref)
 

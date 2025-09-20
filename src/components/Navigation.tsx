@@ -16,14 +16,13 @@ const Navigation = () => {
   const { t } = useTranslation();
   const navigationItems = [
     { name: t("home"), href: "/", icon: Home, important: false, target:"_self" },
-    { name: t("investment"), href: "/investment", icon: TrendingUp, important: false, target:"_self" },
+    { name: t("investment"), href: "/investment", icon: TrendingUp, important: true, target:"_self" },
     { name: t("feedback"), href: "/feedback", icon: MessageCircle, important: false, target:"_self" },
     // { name: "Employment", href: "/employment", icon: Briefcase, important: false },
     { name: t("referring"), href: "/referring", icon: Users, target:"_self" },
     { name: t("Referral Market"), href: "/market", icon: ShoppingBag, target:"_self" },
-    //{ name: t("buycrypto"), href: "/buy-crypto", icon: Gift, target: "_blank" },
-    // { name: "Blog", href: "/blog", icon: FileText },
-    // { name: t("support"), href: "/support", icon: Headphones, target:"_self" },
+  
+     { name: t("shop"), href: "/shop", icon: ShoppingCart, target:"_self" },
     { name: t("Take a Loan"), href: "/loans", icon: User, target:"_self" },
   ];
  const handleRedirect = () => {
@@ -49,13 +48,13 @@ const Navigation = () => {
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link key={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500' : ''}`} target={item.target}>
+                <Link key={item.name} title={item.name} to={item.href} className={`relative flex items-center space-x-2 px-2 rounded transition-smooth ${isActive ? 'bg-green-500' : ''}`} target={item.target}>
                   {/* <Button
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
                     className="relative flex items-center space-x-2 transition-smooth"
                   > */}
-                  <item.icon className="w-4 h-4" />
+                  {/* <item.icon className="w-4 h-4" /> */}
                   <span>{item.name}</span>
                   {item.important && (
                     <Badge variant="destructive" className="absolute -top-1 -right-1 px-1 text-xs">
@@ -68,6 +67,9 @@ const Navigation = () => {
             })}
           </div>
           <LanguageSwitcher />
+          <Link  to={ `/user-dashboard`}>
+             <Button>Dashboard</Button>
+          </Link>
           <Button onClick={handleRedirect}>Buy Crypto</Button>
 
           {/* Mobile menu button */}
