@@ -1,3 +1,4 @@
+import { platform } from "os";
 import { useEffect, useState, useCallback } from "react";
 
 // Base URL for the API, making it easier to manage and change.
@@ -58,18 +59,34 @@ export const useFeedback = () => {
   const addTestimonial = useCallback(async (testimonial: NewTestimonial) => {
     setIsLoading(true);
     setError(null);
+
+    console.log(testimonial)
+
+    const payload = {
+      id: `ID${Date.now().toString()}`,
+      user: testimonial.user,
+      platform:testimonial.platform,
+      amount:testimonial.amount,
+      date: Date.now().toString(),
+      message:testimonial.message,
+      link:testimonial.link,
+      avatar:testimonial.avatar
+    }
+
+    console.log('HHHHHHHHH',payload)
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch('https://crypto-invest-backend-1.onrender.com/api/v1/feedback', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(testimonial),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         throw new Error(`Failed to post testimonial. Status: ${response.status}`);
       }
+
       
       // On success, refetch the entire list to ensure data consistency.
       await fetchTestimonials(); 
