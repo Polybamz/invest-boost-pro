@@ -39,7 +39,7 @@ const Navigation = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-secondary-500  rounded-lg flex items-center justify-center shadow-glow">
                 <img src="/images/logo/logo.png" alt="Logo" className="w-9 h-9" />
               </div>
-              <span className="text-xl font-bold text-foreground">CryptoInvest</span>
+              <span className="text-xl font-bold text-foreground">Mines-Gate</span>
             </Link>
           </div>
 
